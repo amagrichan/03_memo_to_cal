@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ふわふわメモカレンダー</title>
-  <!-- Google Fonts: ほのぼの丸ゴシック -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
@@ -13,16 +13,14 @@
 
   <style>
     :root {
-      --bg-gradient: linear-gradient(180deg, #b9f2ff 0%, #e0f2fe 40%, #f0f9ff 100%);
-      --card-bg: rgba(255, 255, 255, 0.94);
+      --bg-gradient: linear-gradient(180deg, #e0f2fe 0%, #f0f9ff 50%, #ffffff 100%);
+      --card-bg: rgba(255, 255, 255, 0.88);
       --primary-blue: #38bdf8;
-      --primary-hover: #0284c7;
-      --light-blue: #f0f9ff;
-      --accent-blue: #bae6fd;
-      --game-accent: #ff9ee2; /* ゲーム風のアクセントピンク */
+      --deep-blue: #0284c7;
+      --soft-blue: #e0f2fe;
       --text-main: #334155;
       --text-muted: #64748b;
-      --shadow-cloud: 0 16px 40px rgba(56, 189, 248, 0.25);
+      --glow-blue: rgba(56, 189, 248, 0.4);
     }
 
     * {
@@ -44,101 +42,103 @@
       position: relative;
     }
 
-    /* キラキラ＆ドット星のアニメーション */
-    .sparkle {
+    /* 背景のキラキラ魔法粒子 */
+    .magic-sparkle {
       position: absolute;
-      color: #ffffff;
-      opacity: 0.7;
-      animation: floatSparkle 4s infinite ease-in-out;
+      color: #7dd3fc;
+      opacity: 0.8;
+      animation: magicFloat 5s infinite ease-in-out;
       pointer-events: none;
       z-index: 0;
+      filter: drop-shadow(0 0 6px #bae6fd);
     }
 
-    @keyframes floatSparkle {
+    @keyframes magicFloat {
       0%, 100% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.4; }
-      50% { transform: translateY(-15px) scale(1.3) rotate(15deg); opacity: 0.9; }
+      50% { transform: translateY(-20px) scale(1.4) rotate(25deg); opacity: 1; }
     }
 
-    /* ゲーム風ヘッダー */
+    /* ヘッダー */
     .header {
       text-align: center;
       margin-bottom: 32px;
       z-index: 1;
-      animation: floatTitle 3.5s infinite ease-in-out;
+      animation: floatHeader 4s infinite ease-in-out;
     }
 
-    @keyframes floatTitle {
+    @keyframes floatHeader {
       0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-6px); }
+      50% { transform: translateY(-8px); }
     }
 
     .header h1 {
       font-size: clamp(1.4rem, 4vw, 1.9rem);
-      color: #0284c7;
+      color: var(--deep-blue);
       margin: 0;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      background: rgba(255, 255, 255, 0.9);
-      padding: 10px 24px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 12px 28px;
       border-radius: 50px;
-      border: 3px solid #7dd3fc;
-      box-shadow: 0 8px 0px #bae6fd, 0 12px 24px rgba(56, 189, 248, 0.2);
+      border: 2px solid #bae6fd;
+      box-shadow: 0 8px 30px rgba(56, 189, 248, 0.25), inset 0 0 15px rgba(224, 242, 254, 0.8);
+      backdrop-filter: blur(8px);
     }
 
     .header p {
       font-size: clamp(0.8rem, 2.5vw, 0.95rem);
-      color: #0369a1;
+      color: #0284c7;
       margin-top: 12px;
       margin-bottom: 0;
       font-weight: 800;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
+      text-shadow: 0 0 10px #ffffff;
     }
 
-    /* メインコンテナ（ゲームのメッセージウィンドウ風） */
+    /* メインコンテナ */
     .container {
       width: 100%;
       max-width: 520px;
       background: var(--card-bg);
-      border-radius: 32px;
+      border-radius: 36px;
       padding: clamp(24px, 5vw, 36px);
-      box-shadow: var(--shadow-cloud);
+      box-shadow: 0 20px 50px rgba(56, 189, 248, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.9);
       border: 4px solid #ffffff;
-      outline: 3px dashed #7dd3fc;
-      outline-offset: -10px;
       position: relative;
       z-index: 1;
+      backdrop-filter: blur(12px);
     }
 
-    /* 【枠外・右上】ゲーム風ドット雲＆ミニステータスバッジ */
-    .game-cloud-badge {
+    /* 【枠外右上】文字なし・魔法のお星さまモチーフ */
+    .magic-icon-badge {
       position: absolute;
-      top: -38px;
-      right: 15px;
-      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
-      color: #ffffff;
-      padding: 8px 18px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 800;
-      border: 3px solid #ffffff;
-      box-shadow: 0 6px 14px rgba(56, 189, 248, 0.35);
+      top: -28px;
+      right: 10px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
+      border-radius: 50%;
+      border: 3px solid #7dd3fc;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.5), inset 0 0 10px #ffffff;
       display: flex;
       align-items: center;
-      gap: 6px;
-      animation: bounceBadge 3s infinite ease-in-out;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: #38bdf8;
+      animation: magicWandBounce 3.5s infinite ease-in-out;
       pointer-events: none;
       z-index: 10;
     }
 
-    @keyframes bounceBadge {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-8px) scale(1.05); }
+    @keyframes magicWandBounce {
+      0%, 100% { transform: translateY(0) rotate(-10deg) scale(1); }
+      50% { transform: translateY(-10px) rotate(15deg) scale(1.1); }
     }
 
     .input-group {
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
 
     label {
@@ -147,100 +147,124 @@
       gap: 8px;
       font-size: 0.98rem;
       font-weight: 800;
-      color: #0369a1;
-      margin-bottom: 10px;
+      color: var(--deep-blue);
+      margin-bottom: 12px;
     }
 
     textarea {
       width: 100%;
       height: 125px;
-      padding: 16px;
-      border: 3px solid var(--accent-blue);
-      border-radius: 22px;
+      padding: 18px;
+      border: 2px solid #bae6fd;
+      border-radius: 24px;
       font-size: 1rem;
       color: var(--text-main);
-      background-color: var(--light-blue);
+      background-color: rgba(240, 249, 255, 0.7);
       outline: none;
-      transition: all 0.25s ease;
+      transition: all 0.3s ease;
       resize: vertical;
       font-weight: 700;
+      box-shadow: inset 0 2px 6px rgba(56, 189, 248, 0.08);
     }
 
     textarea:focus {
       border-color: var(--primary-blue);
       background-color: #ffffff;
-      box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.25);
+      box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.25), inset 0 2px 4px rgba(0,0,0,0.02);
     }
 
-    /* ゲームコマンド風ボタン */
+    /* 魔法ボタン */
     .btn {
       width: 100%;
       padding: 16px;
       border: none;
-      border-radius: 22px;
+      border-radius: 26px;
       font-size: 1.05rem;
       font-weight: 800;
       cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      box-shadow: 0 6px 0px #0284c7, 0 10px 20px rgba(56, 189, 248, 0.3);
-      letter-spacing: 0.03em;
+      letter-spacing: 0.05em;
     }
 
     .btn-parse {
-      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+      background: linear-gradient(135deg, #7dd3fc 0%, #0284c7 100%);
       color: #ffffff;
-      border: 2px solid #38bdf8;
+      border: 2px solid #ffffff;
+      box-shadow: 0 8px 24px rgba(56, 189, 248, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-parse::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(60deg, transparent, rgba(255,255,255,0.4), transparent);
+      transform: rotate(30deg);
+      transition: 0.8s;
+    }
+
+    .btn-parse:hover::after {
+      left: 100%;
     }
 
     .btn-parse:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 9px 0px #0284c7, 0 14px 25px rgba(56, 189, 248, 0.4);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 30px rgba(56, 189, 248, 0.5);
     }
 
     .btn-parse:active {
-      transform: translateY(3px);
-      box-shadow: 0 3px 0px #0284c7, 0 6px 10px rgba(56, 189, 248, 0.3);
+      transform: translateY(1px) scale(0.98);
     }
 
-    /* 結果カード（クエスト完了風） */
+    /* ローディング状態 */
+    .btn-loading {
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    /* 結果カード */
     .preview-card {
       margin-top: 26px;
-      background: #ffffff;
-      border: 3px solid #bae6fd;
-      border-radius: 26px;
-      padding: 20px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid #bae6fd;
+      border-radius: 28px;
+      padding: 22px;
       display: none;
-      box-shadow: 0 10px 24px rgba(186, 230, 253, 0.4);
-      animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 12px 32px rgba(186, 230, 253, 0.5);
+      animation: magicPop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    @keyframes popIn {
-      0% { opacity: 0; transform: scale(0.88) translateY(20px); }
+    @keyframes magicPop {
+      0% { opacity: 0; transform: scale(0.85) translateY(20px); }
       100% { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     .preview-card h2 {
       margin-top: 0;
       font-size: 1.15rem;
-      color: #0369a1;
+      color: var(--deep-blue);
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 14px;
-      border-bottom: 2px dashed #bae6fd;
+      margin-bottom: 16px;
+      border-bottom: 2px stroke #e0f2fe;
       padding-bottom: 8px;
     }
 
     .field {
       margin-bottom: 12px;
-      background: var(--light-blue);
-      padding: 12px 16px;
-      border-radius: 18px;
-      border: 1px solid #e0f2fe;
+      background: var(--soft-blue);
+      padding: 14px 18px;
+      border-radius: 20px;
+      border: 1px solid #ffffff;
     }
 
     .field-label {
@@ -249,7 +273,7 @@
       font-weight: 800;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
     }
 
     .field-value {
@@ -257,7 +281,7 @@
       color: var(--text-main);
       font-weight: 800;
       word-break: break-all;
-      margin-top: 2px;
+      margin-top: 4px;
     }
 
     .calendar-actions {
@@ -268,39 +292,35 @@
     }
 
     .btn-apple {
-      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
       color: #ffffff;
-      box-shadow: 0 5px 0px #0369a1, 0 8px 16px rgba(2, 132, 199, 0.25);
+      box-shadow: 0 6px 18px rgba(2, 132, 199, 0.3);
     }
 
     .btn-timetree {
-      background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
+      background: linear-gradient(135deg, #34d399 0%, #059669 100%);
       color: #ffffff;
-      box-shadow: 0 5px 0px #15803d, 0 8px 16px rgba(34, 197, 94, 0.25);
+      box-shadow: 0 6px 18px rgba(5, 150, 105, 0.3);
     }
 
     .btn-apple:hover, .btn-timetree:hover {
       transform: translateY(-2px);
-    }
-
-    .btn-apple:active, .btn-timetree:active {
-      transform: translateY(2px);
-      box-shadow: 0 2px 0px transparent;
+      filter: brightness(1.05);
     }
 
     .tip-box {
       margin-top: 16px;
       font-size: 0.8rem;
       color: var(--text-muted);
-      background: #f8fafc;
-      padding: 12px 14px;
-      border-radius: 16px;
-      line-height: 1.5;
-      border: 1px solid #e2e8f0;
+      background: rgba(240, 249, 255, 0.6);
+      padding: 12px 16px;
+      border-radius: 18px;
+      line-height: 1.6;
+      border: 1px solid #e0f2fe;
       font-weight: 700;
     }
 
-    /* ゲーム風トーストポップアップ */
+    /* トースト通知 */
     .toast {
       position: fixed;
       bottom: 28px;
@@ -314,7 +334,7 @@
       font-weight: 800;
       transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       z-index: 100;
-      box-shadow: 0 8px 24px rgba(56, 189, 248, 0.4);
+      box-shadow: 0 10px 30px rgba(56, 189, 248, 0.4);
       border: 2px solid #ffffff;
     }
 
@@ -325,37 +345,37 @@
 </head>
 <body>
 
-<!-- キラキラ演出 -->
-<i class="fa-solid fa-gamepad sparkle" style="top: 8%; left: 8%; font-size: 1.4rem; animation-delay: 0s;"></i>
-<i class="fa-solid fa-star sparkle" style="top: 18%; right: 10%; font-size: 1.2rem; animation-delay: 1.2s;"></i>
-<i class="fa-solid fa-cloud sparkle" style="top: 75%; left: 6%; font-size: 1.8rem; animation-delay: 2s;"></i>
-<i class="fa-solid fa-wand-magic-sparkles sparkle" style="bottom: 10%; right: 8%; font-size: 1.3rem; animation-delay: 0.6s;"></i>
+<!-- キラキラ粒子アニメーション -->
+<i class="fa-solid fa-sparkles magic-sparkle" style="top: 8%; left: 10%; font-size: 1.4rem; animation-delay: 0s;"></i>
+<i class="fa-solid fa-star magic-sparkle" style="top: 20%; right: 12%; font-size: 1.1rem; animation-delay: 1.2s;"></i>
+<i class="fa-solid fa-wand-magic-sparkles magic-sparkle" style="top: 70%; left: 8%; font-size: 1.6rem; animation-delay: 2.5s;"></i>
+<i class="fa-solid fa-moon magic-sparkle" style="bottom: 12%; right: 10%; font-size: 1.3rem; animation-delay: 0.8s;"></i>
 
 <!-- ヘッダー -->
 <div class="header">
-  <h1><i class="fa-solid fa-cloud-moon" style="color: #38bdf8;"></i> ふわっとメモカレンダー</h1>
-  <p>🎮 メモをいれて予定をゲットしよう！ 🎮</p>
+  <h1><i class="fa-solid fa-wand-magic-sparkles" style="color: #38bdf8;"></i> ふわっとメモカレンダー</h1>
+  <p>✨ メモを入れると魔法でカレンダーに早変わり ✨</p>
 </div>
 
 <div class="container">
 
-  <!-- 右上のゲーム風バッジ（枠外配置） -->
-  <div class="game-cloud-badge">
-    <i class="fa-solid fa-cloud-sun"></i> Ready!
+  <!-- 枠外右上：文字なしの魔法お星さまバッジ -->
+  <div class="magic-icon-badge">
+    <i class="fa-solid fa-wand-magic"></i>
   </div>
 
   <div class="input-group">
-    <label for="memoInput"><i class="fa-solid fa-pen-to-square"></i> 予定メモを入力してね</label>
+    <label for="memoInput"><i class="fa-solid fa-sparkles"></i> 魔法のメモを入力してね</label>
     <textarea id="memoInput" placeholder="例：&#10;明日 終日 ディズニー行く！&#10;または&#10;8月10日 15:00 カフェで打ち合わせ"></textarea>
   </div>
 
-  <button class="btn btn-parse" onclick="parseMemo()">
+  <button class="btn btn-parse" id="parseBtn" onclick="parseMemo()">
     <i class="fa-solid fa-wand-magic-sparkles"></i> 予定を魔法でまとめる！
   </button>
 
   <!-- 結果カード -->
   <div id="previewCard" class="preview-card">
-    <h2><i class="fa-solid fa-trophy" style="color: #f59e0b;"></i> まとめたクエスト内容</h2>
+    <h2><i class="fa-solid fa-hat-wizard" style="color: #38bdf8;"></i> まとめた魔法結果</h2>
     
     <div class="field">
       <div class="field-label"><i class="fa-regular fa-clock"></i> 日時</div>
@@ -363,7 +383,7 @@
     </div>
 
     <div class="field">
-      <div class="field-label"><i class="fa-solid fa-bookmark"></i> 件名</div>
+      <div class="field-label"><i class="fa-solid fa-star"></i> 件名</div>
       <div class="field-value" id="resTitle">-</div>
     </div>
 
@@ -395,13 +415,85 @@
 <script>
 let parsedEvent = null;
 
-function parseMemo() {
+// ===============================================
+// 🌐 API連携設定（必要に応じて接続先URLを設定）
+// ===============================================
+const API_CONFIG = {
+  // 実装したAPIのエンドポイントURLを指定してください（例: '/api/parse-memo'）
+  endpoint: '', 
+  useAPI: false // API連携を有効化する場合は true に変更します
+};
+
+async function parseMemo() {
   const text = document.getElementById('memoInput').value.trim();
   if (!text) {
     alert('メモを入力してくださいね！');
     return;
   }
 
+  const btn = document.getElementById('parseBtn');
+  btn.classList.add('btn-loading');
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 魔法をかけています...';
+
+  try {
+    if (API_CONFIG.useAPI && API_CONFIG.endpoint) {
+      // 📡 API経由で解析する場合
+      parsedEvent = await parseWithAPI(text);
+    } else {
+      // 🪄 ローカルロジックで解析する場合（フォールバック）
+      parsedEvent = parseLocalMemo(text);
+    }
+
+    updatePreviewUI(parsedEvent);
+  } catch (error) {
+    console.error('API Error:', error);
+    // API呼び出しでエラーが起きた場合はローカルロジックに切り替え
+    parsedEvent = parseLocalMemo(text);
+    updatePreviewUI(parsedEvent);
+  } finally {
+    btn.classList.remove('btn-loading');
+    btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> 予定を魔法でまとめる！';
+  }
+}
+
+// API連携関数
+async function parseWithAPI(text) {
+  const response = await fetch(API_CONFIG.endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ memo: text })
+  });
+
+  if (!response.ok) {
+    throw new Error('APIリクエストに失敗しました');
+  }
+
+  const data = await response.json();
+  
+  // APIレスポンス形式に合わせてDateオブジェクトを組み立て
+  const startDate = new Date(data.year, data.month - 1, data.day, data.startHour, data.startMinute);
+  const endDate = new Date(data.year, data.month - 1, data.day, data.endHour, data.endMinute);
+
+  return {
+    start: startDate,
+    end: endDate,
+    year: data.year,
+    month: data.month,
+    day: data.day,
+    startHour: data.startHour,
+    startMinute: data.startMinute,
+    endHour: data.endHour,
+    endMinute: data.endMinute,
+    isAllDay: data.isAllDay || false,
+    title: data.title,
+    description: data.description
+  };
+}
+
+// ローカルでの解析処理（ルールベース）
+function parseLocalMemo(text) {
   const now = new Date();
   let year = now.getFullYear();
   let month = now.getMonth() + 1;
@@ -468,7 +560,7 @@ function parseMemo() {
     endMinute = 0;
   }
 
-  // タイトル抽出（日時キーワードを除去）
+  // タイトル抽出
   const lines = text.split('\n').map(l => l.trim()).filter(l => l !== '');
   let titleText = lines[0] || '新規予定';
   titleText = titleText
@@ -484,22 +576,25 @@ function parseMemo() {
   const startDate = new Date(year, month - 1, day, startHour, startMinute);
   const endDate = new Date(year, month - 1, day, endHour, endMinute);
 
-  parsedEvent = {
+  return {
     start: startDate,
     end: endDate,
-    year, month, day, startHour, startMinute, endHour, endMinute,
+    year, month, day, startHour, startMinute, endHour, endMinute, isAllDay,
     title: titleText,
     description: description
   };
+}
 
+// UI更新処理
+function updatePreviewUI(event) {
   const pad = n => String(n).padStart(2, '0');
-  const timeDisplay = isAllDay 
-    ? `${year}年${month}月${day}日 09:00 〜 22:00 (終日)`
-    : `${year}年${month}月${day}日 ${pad(startHour)}:${pad(startMinute)} 〜 ${pad(endHour)}:${pad(endMinute)}`;
+  const timeDisplay = event.isAllDay 
+    ? `${event.year}年${event.month}月${event.day}日 09:00 〜 22:00 (終日)`
+    : `${event.year}年${event.month}月${event.day}日 ${pad(event.startHour)}:${pad(event.startMinute)} 〜 ${pad(event.endHour)}:${pad(event.endMinute)}`;
 
   document.getElementById('resDateTime').textContent = timeDisplay;
-  document.getElementById('resTitle').textContent = parsedEvent.title;
-  document.getElementById('resBody').textContent = parsedEvent.description;
+  document.getElementById('resTitle').textContent = event.title;
+  document.getElementById('resBody').textContent = event.description;
 
   document.getElementById('previewCard').style.display = 'block';
 }
@@ -514,7 +609,7 @@ function downloadICS() {
   const icsData = 
 `BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//FuwaFuwa Memo App//JA
+PRODID:-//FuwaFuwa Magic Memo App//JA
 BEGIN:VEVENT
 SUMMARY:${parsedEvent.title}
 DESCRIPTION:${parsedEvent.description.replace(/\n/g, '\\n')}
@@ -539,7 +634,7 @@ function openTimeTree() {
   const copyText = `【${parsedEvent.title}】\n日時: ${parsedEvent.year}/${parsedEvent.month}/${parsedEvent.day} ${pad(parsedEvent.startHour)}:${pad(parsedEvent.startMinute)}～${pad(parsedEvent.endHour)}:${pad(parsedEvent.endMinute)}\n\nメモ:\n${parsedEvent.description}`;
 
   navigator.clipboard.writeText(copyText).then(() => {
-    showToast('✨ コピーしたよ！TimeTreeを開きます♪');
+    showToast('✨ 魔法でコピーしたよ！TimeTreeを開きます♪');
     setTimeout(() => {
       window.location.href = 'timetree://';
       setTimeout(() => {
