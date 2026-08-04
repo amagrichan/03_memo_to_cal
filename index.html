@@ -7,22 +7,21 @@
   <!-- Google Fonts: ほのぼの丸ゴシック -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
   <!-- FontAwesome アイコン -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
     :root {
-      --bg-gradient: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 50%, #e0f2fe 100%);
-      --card-bg: #ffffff;
+      --bg-gradient: linear-gradient(180deg, #c7d2fe 0%, #e0f2fe 40%, #f0f9ff 100%);
+      --card-bg: rgba(255, 255, 255, 0.92);
       --primary-blue: #38bdf8;
       --primary-hover: #0284c7;
       --light-blue: #f0f9ff;
       --accent-blue: #bae6fd;
       --text-main: #334155;
       --text-muted: #64748b;
-      --timetree-color: #22c55e;
-      --shadow-cloud: 0 12px 32px rgba(56, 189, 248, 0.18);
+      --shadow-cloud: 0 16px 40px rgba(56, 189, 248, 0.22);
     }
 
     * {
@@ -32,111 +31,152 @@
 
     body {
       margin: 0;
-      padding: 24px 16px;
+      padding: 16px;
       background: var(--bg-gradient);
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       color: var(--text-main);
-    }
-
-    .container {
-      width: 100%;
-      max-width: 480px;
-      background: var(--card-bg);
-      border-radius: 28px;
-      padding: 28px 24px;
-      box-shadow: var(--shadow-cloud);
-      border: 3px solid #ffffff;
+      overflow-x: hidden;
       position: relative;
     }
 
-    /* ふわふわの飾り雲 */
+    /* 背景のキラキラアニメーション */
+    .sparkle {
+      position: absolute;
+      color: #ffffff;
+      opacity: 0.6;
+      animation: floatSparkle 6s infinite ease-in-out;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes floatSparkle {
+      0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
+      50% { transform: translateY(-20px) scale(1.3); opacity: 0.8; }
+    }
+
+    /* 空に浮かぶヘッダータイトルアニメーション */
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+      z-index: 1;
+      animation: floatTitle 4s infinite ease-in-out;
+    }
+
+    @keyframes floatTitle {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(1deg); }
+    }
+
+    .header h1 {
+      font-size: clamp(1.4rem, 4vw, 1.9rem);
+      color: #0284c7;
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 10px 24px;
+      border-radius: 50px;
+      box-shadow: 0 8px 24px rgba(56, 189, 248, 0.2);
+      backdrop-filter: blur(4px);
+    }
+
+    .header p {
+      font-size: clamp(0.8rem, 2.5vw, 0.95rem);
+      color: #475569;
+      margin-top: 10px;
+      margin-bottom: 0;
+      font-weight: 700;
+    }
+
+    /* コンテナ（デバイスに応じた幅の自動調整） */
+    .container {
+      width: 100%;
+      max-width: 520px; /* PCでの最大幅 */
+      background: var(--card-bg);
+      border-radius: 32px;
+      padding: clamp(20px, 5vw, 32px);
+      box-shadow: var(--shadow-cloud);
+      border: 4px solid #ffffff;
+      position: relative;
+      z-index: 1;
+      backdrop-filter: blur(8px);
+    }
+
+    /* ゆらゆら浮かぶ飾り雲 */
     .cloud-decoration {
       position: absolute;
-      top: -20px;
-      right: 20px;
+      top: -22px;
+      right: 24px;
       background: #ffffff;
-      padding: 6px 14px;
+      padding: 6px 16px;
       border-radius: 20px;
       font-size: 0.85rem;
       color: var(--primary-blue);
-      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.15);
+      box-shadow: 0 6px 16px rgba(56, 189, 248, 0.2);
       display: flex;
       align-items: center;
       gap: 6px;
       font-weight: bold;
+      animation: floatCloud 3.5s infinite ease-in-out;
     }
 
-    .header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .header h1 {
-      font-size: 1.4rem;
-      color: #0284c7;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .header p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-top: 6px;
-      margin-bottom: 0;
+    @keyframes floatCloud {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
     }
 
     .input-group {
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
 
     label {
       display: block;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #0369a1;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     textarea {
       width: 100%;
-      height: 110px;
-      padding: 14px;
+      height: 120px;
+      padding: 16px;
       border: 2px solid var(--accent-blue);
-      border-radius: 18px;
-      font-size: 0.95rem;
+      border-radius: 20px;
+      font-size: 1rem;
       color: var(--text-main);
       background-color: var(--light-blue);
       outline: none;
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
       resize: vertical;
     }
 
     textarea:focus {
       border-color: var(--primary-blue);
       background-color: #ffffff;
-      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2);
+      box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.25);
     }
 
     .btn {
       width: 100%;
-      padding: 14px;
+      padding: 16px;
       border: none;
-      border-radius: 20px;
-      font-size: 1rem;
-      font-weight: 700;
+      border-radius: 22px;
+      font-size: 1.05rem;
+      font-weight: 800;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      box-shadow: 0 6px 16px rgba(56, 189, 248, 0.25);
+      gap: 10px;
+      box-shadow: 0 6px 18px rgba(56, 189, 248, 0.28);
     }
 
     .btn-parse {
@@ -145,56 +185,56 @@
     }
 
     .btn-parse:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(56, 189, 248, 0.35);
+      transform: translateY(-3px) scale(1.01);
+      box-shadow: 0 10px 24px rgba(56, 189, 248, 0.4);
     }
 
     .btn-parse:active {
-      transform: translateY(0);
+      transform: translateY(0) scale(0.99);
     }
 
-    /* 解析結果エリア */
+    /* 結果カード */
     .preview-card {
       margin-top: 24px;
       background: var(--light-blue);
       border: 2px dashed var(--accent-blue);
-      border-radius: 20px;
+      border-radius: 24px;
       padding: 20px;
       display: none;
-      animation: fadeIn 0.3s ease;
+      animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.9) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     .preview-card h2 {
       margin-top: 0;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       color: #0369a1;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       margin-bottom: 14px;
     }
 
     .field {
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       background: #ffffff;
-      padding: 10px 14px;
-      border-radius: 12px;
+      padding: 12px 16px;
+      border-radius: 16px;
       border: 1px solid #e0f2fe;
     }
 
     .field-label {
       font-size: 0.75rem;
       color: var(--text-muted);
-      font-weight: bold;
+      font-weight: 800;
     }
 
     .field-value {
-      font-size: 0.95rem;
+      font-size: 1rem;
       color: var(--text-main);
       font-weight: 700;
       word-break: break-all;
@@ -203,45 +243,52 @@
     .calendar-actions {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
       margin-top: 18px;
     }
 
     .btn-apple {
       background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
       color: #ffffff;
-      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+      box-shadow: 0 6px 16px rgba(2, 132, 199, 0.3);
     }
 
     .btn-timetree {
       background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
       color: #ffffff;
-      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25);
+      box-shadow: 0 6px 16px rgba(34, 197, 94, 0.3);
+    }
+
+    .btn-apple:hover, .btn-timetree:hover {
+      transform: translateY(-2px);
     }
 
     .tip-box {
-      margin-top: 12px;
-      font-size: 0.75rem;
+      margin-top: 14px;
+      font-size: 0.78rem;
       color: var(--text-muted);
       background: #ffffff;
-      padding: 10px 12px;
-      border-radius: 12px;
-      line-height: 1.4;
+      padding: 12px 14px;
+      border-radius: 16px;
+      line-height: 1.5;
       border: 1px solid #e0f2fe;
     }
 
     .toast {
       position: fixed;
-      bottom: 24px;
+      bottom: 28px;
       left: 50%;
       transform: translateX(-50%) translateY(100px);
-      background: #334155;
+      background: rgba(51, 65, 85, 0.95);
       color: #fff;
-      padding: 10px 20px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      transition: transform 0.3s ease;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       z-index: 100;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      backdrop-filter: blur(4px);
     }
 
     .toast.show {
@@ -251,28 +298,35 @@
 </head>
 <body>
 
+<!-- キラキラの背景演出 -->
+<i class="fa-solid fa-star sparkle" style="top: 10%; left: 8%; font-size: 1.2rem; animation-delay: 0s;"></i>
+<i class="fa-solid fa-sparkles sparkle" style="top: 20%; right: 10%; font-size: 1.5rem; animation-delay: 1.5s;"></i>
+<i class="fa-solid fa-cloud sparkle" style="top: 75%; left: 5%; font-size: 2rem; animation-delay: 2.5s;"></i>
+<i class="fa-solid fa-star sparkle" style="bottom: 12%; right: 8%; font-size: 1rem; animation-delay: 0.8s;"></i>
+
+<!-- 空にゆらゆら浮かぶヘッダー -->
+<div class="header">
+  <h1><i class="fa-solid fa-cloud-moon" style="color: #38bdf8;"></i> ふわっとメモカレンダー</h1>
+  <p>✨ メモを入れるだけでカレンダーにすぐ登録できるよ ✨</p>
+</div>
+
 <div class="container">
   <div class="cloud-decoration">
-    <i class="fa-solid fa-cloud"></i> ふわっと変換
-  </div>
-
-  <div class="header">
-    <h1><i class="fa-regular fa-calendar-check" style="color: #38bdf8;"></i> メモからカレンダー登録</h1>
-    <p>メモを入力すると日付や件名を自動で読み取ります♪</p>
+    <i class="fa-solid fa-cloud"></i> ぽかぽか機能
   </div>
 
   <div class="input-group">
-    <label for="memoInput"><i class="fa-solid fa-pen-fancy"></i> メモを入力</label>
+    <label for="memoInput"><i class="fa-solid fa-pen-nib"></i> メモを入力してね</label>
     <textarea id="memoInput" placeholder="例：&#10;8月10日 15:00 カフェで打ち合わせ&#10;〇〇さんと新プロジェクトの進捗確認をする！"></textarea>
   </div>
 
   <button class="btn btn-parse" onclick="parseMemo()">
-    <i class="fa-solid fa-wand-magic-sparkles"></i> 予定をきれいに整理する
+    <i class="fa-solid fa-wand-magic-sparkles"></i> 予定を魔法でまとめる
   </button>
 
   <!-- 結果表示エリア -->
   <div id="previewCard" class="preview-card">
-    <h2><i class="fa-solid fa-heart" style="color: #38bdf8;"></i> まとめた結果</h2>
+    <h2><i class="fa-solid fa-wand-sparkles" style="color: #38bdf8;"></i> まとめた結果</h2>
     
     <div class="field">
       <div class="field-label">日時</div>
@@ -303,14 +357,13 @@
 
     <div class="tip-box">
       <strong>💡 アプリ連携のアドバイス</strong><br>
-      • <strong>iPhoneカレンダー:</strong> ボタンを押すとカレンダー登録画面が開きます。<br>
-      • <strong>TimeTree:</strong> 予定内容がクリップボードにコピーされた状態でTimeTreeが開きます。そのまま新規作成画面に貼り付けて登録できます。<br>
-      ※iPhoneの標準カレンダーとTimeTreeを連携設定しておくと、iPhoneカレンダーに追加するだけでTimeTreeにも自動反映されます！
+      • <strong>iPhoneカレンダー:</strong> ボタンを押すとそのまま予定追加画面が開きます。<br>
+      • <strong>TimeTree:</strong> 予定内容がコピーされた状態でアプリが開きます。新規作成画面に貼り付けて登録してね♪
     </div>
   </div>
 </div>
 
-<div id="toast" class="toast">クリップボードにコピーしました！</div>
+<div id="toast" class="toast">クリップボードにコピーしたよ！</div>
 
 <script>
 let parsedEvent = null;
@@ -326,7 +379,7 @@ function parseMemo() {
   let year = now.getFullYear();
   let month = now.getMonth() + 1;
   let day = now.getDate();
-  let hour = 10; // デフォルト 10:00
+  let hour = 10;
   let minute = 0;
 
   // 相対日付の判定（今日・明日・明後日）
@@ -357,7 +410,7 @@ function parseMemo() {
     }
   }
 
-  // 時間のマッチング（例: 15:30, 15時30分, 15時）
+  // 時間のマッチング
   const timeMatch = text.match(/(\d{1,2})[:：](\d{2})/) || text.match(/(\d{1,2})時((\d{1,2})分)?/);
   if (timeMatch) {
     hour = parseInt(timeMatch[1]);
@@ -368,10 +421,8 @@ function parseMemo() {
     }
   }
 
-  // テキストの整理（1行目を件名、2行目以降を本文に）
+  // タイトルと本文の抽出
   const lines = text.split('\n').map(l => l.trim()).filter(l => l !== '');
-  
-  // 日時表現を除去してタイトルを綺麗にする
   let titleText = lines[0] || '新規予定';
   titleText = titleText
     .replace(/(\d{4}[\/\.-年])?\d{1,2}[\/\.-月]\d{1,2}日?/, '')
@@ -383,7 +434,6 @@ function parseMemo() {
 
   const description = lines.length > 1 ? lines.slice(1).join('\n') : text;
 
-  // 日付オブジェクト生成
   const startDate = new Date(year, month - 1, day, hour, minute);
   const endDate = new Date(year, month - 1, day, hour + 1, minute);
 
@@ -405,7 +455,6 @@ function parseMemo() {
   document.getElementById('previewCard').style.display = 'block';
 }
 
-// iCalendar (.ics) ダウンロード
 function formatDateToICS(date) {
   return date.toISOString().replace(/-|:|\.\d\d\d/g, '');
 }
@@ -434,7 +483,6 @@ END:VCALENDAR`;
   URL.revokeObjectURL(url);
 }
 
-// TimeTreeへの連携（内容をクリップボードにコピーしてTimeTreeを起動）
 function openTimeTree() {
   if (!parsedEvent) return;
 
@@ -442,17 +490,15 @@ function openTimeTree() {
   const copyText = `【${parsedEvent.title}】\n日時: ${parsedEvent.year}/${parsedEvent.month}/${parsedEvent.day} ${pad(parsedEvent.hour)}:${pad(parsedEvent.minute)}\n\nメモ:\n${parsedEvent.description}`;
 
   navigator.clipboard.writeText(copyText).then(() => {
-    showToast('コピーしました！TimeTreeを開きます♪');
+    showToast('コピーしたよ！TimeTreeを開きます♪');
     setTimeout(() => {
-      // TimeTreeのアプリ起動用URLスキームまたはWebリンク
       window.location.href = 'timetree://';
       setTimeout(() => {
-        // アプリが開かなかった場合のフォールバック（ストア/Web）
         window.location.href = 'https://timetreeapp.com/';
       }, 1500);
     }, 800);
   }).catch(() => {
-    alert('コピーに失敗しました。手動でコピーしてください。');
+    alert('コピーに失敗しちゃいました。手動でコピーしてね。');
   });
 }
 
