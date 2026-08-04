@@ -61,7 +61,7 @@
     /* 空に浮かぶヘッダータイトルアニメーション */
     .header {
       text-align: center;
-      margin-bottom: 28px;
+      margin-bottom: 36px;
       z-index: 1;
       animation: floatTitle 4s infinite ease-in-out;
     }
@@ -94,7 +94,7 @@
       font-weight: 700;
     }
 
-    /* コンテナ（自動幅調整） */
+    /* コンテナ（カード本体） */
     .container {
       width: 100%;
       max-width: 520px;
@@ -108,31 +108,27 @@
       backdrop-filter: blur(8px);
     }
 
-    /* ゆらゆら浮かぶうさぎ雲バッジ */
-    .bunny-cloud-badge {
+    /* 【枠外配置】もこもこ雲に乗ったおやすみうさぎ */
+    .outside-bunny-wrapper {
       position: absolute;
-      top: -30px;
-      right: 20px;
-      background: #ffffff;
-      padding: 6px 14px;
-      border-radius: 30px;
-      box-shadow: 0 8px 20px rgba(56, 189, 248, 0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: floatCloud 3.5s infinite ease-in-out;
-      border: 2px solid #e0f2fe;
+      top: -55px; /* 枠外の上に飛び出させる */
+      right: -10px; /* 枠外の右側に寄せる */
+      width: 110px;
+      height: 110px;
+      pointer-events: none;
+      z-index: 10;
+      animation: floatBunnyCloud 4s infinite ease-in-out;
     }
 
-    .bunny-icon {
-      width: 44px;
-      height: 44px;
-      display: block;
+    .bunny-svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 8px 16px rgba(56, 189, 248, 0.3));
     }
 
-    @keyframes floatCloud {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-7px); }
+    @keyframes floatBunnyCloud {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(2deg); }
     }
 
     .input-group {
@@ -315,32 +311,49 @@
 </div>
 
 <div class="container">
-  <!-- オリジナル水色うさぎバッジ（「ぽかぽか機能」テキストなし） -->
-  <div class="bunny-cloud-badge">
-    <svg class="bunny-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- 左耳 -->
-      <ellipse cx="36" cy="22" rx="9" ry="20" fill="#ffffff" stroke="#bae6fd" stroke-width="3"/>
-      <ellipse cx="36" cy="22" rx="5" ry="14" fill="#38bdf8" opacity="0.4"/>
-      <!-- 右耳 -->
-      <ellipse cx="64" cy="22" rx="9" ry="20" fill="#ffffff" stroke="#bae6fd" stroke-width="3"/>
-      <ellipse cx="64" cy="22" rx="5" ry="14" fill="#38bdf8" opacity="0.4"/>
-      <!-- 顔 -->
-      <circle cx="50" cy="54" r="28" fill="#ffffff" stroke="#bae6fd" stroke-width="3"/>
-      <!-- ほっぺ（ピンク風味の水色） -->
-      <ellipse cx="34" cy="60" rx="5" ry="3" fill="#38bdf8" opacity="0.3"/>
-      <ellipse cx="66" cy="60" rx="5" ry="3" fill="#38bdf8" opacity="0.3"/>
-      <!-- 目 -->
-      <circle cx="38" cy="52" r="3.5" fill="#0369a1"/>
-      <circle cx="62" cy="52" r="3.5" fill="#0369a1"/>
-      <circle cx="39.5" cy="50.5" r="1.2" fill="#ffffff"/>
-      <circle cx="63.5" cy="50.5" r="1.2" fill="#ffffff"/>
-      <!-- 口・鼻 -->
-      <path d="M47.5 57 C 49 59, 51 59, 52.5 57" stroke="#0369a1" stroke-width="2" stroke-linecap="round"/>
-      <polygon points="50,55 48.5,53 51.5,53" fill="#38bdf8"/>
-      <!-- リボン -->
-      <path d="M 60 38 Q 66 32 68 40 Q 62 42 60 38 Z" fill="#38bdf8"/>
-      <path d="M 60 38 Q 66 44 68 36 Q 62 34 60 38 Z" fill="#38bdf8"/>
-      <circle cx="60" cy="38" r="2.5" fill="#0284c7"/>
+
+  <!-- 枠外に配置した「もこもこ雲に乗ったおやすみうさぎ」 -->
+  <div class="outside-bunny-wrapper">
+    <svg class="bunny-svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- 三日月 -->
+      <path d="M 25 28 A 12 12 0 0 0 37 40 A 10 10 0 0 1 25 28 Z" fill="#fef08a"/>
+      <!-- ちいさな星 -->
+      <polygon points="90,20 92,24 96,25 93,28 94,32 90,30 86,32 87,28 84,25 88,24" fill="#fef08a"/>
+      <polygon points="18,55 19.5,58 22.5,58.5 20,60.5 21,63.5 18,62 15,63.5 16,60.5 13.5,58.5 16.5,58" fill="#bae6fd"/>
+
+      <!-- もこもこ雲本体 -->
+      <g filter="drop-shadow(0 4px 6px rgba(56,189,248,0.15))">
+        <path d="M 25 80 
+                 C 15 80, 10 70, 20 62 
+                 C 15 50, 30 42, 42 48 
+                 C 50 38, 70 38, 78 48 
+                 C 90 42, 105 50, 100 62 
+                 C 110 70, 105 80, 95 80 
+                 Z" fill="#ffffff"/>
+        <!-- 雲のニュアンス陰影（水色） -->
+        <path d="M 25 80 C 40 85, 80 85, 95 80 C 102 75, 98 68, 92 70 C 75 78, 40 78, 25 70 Z" fill="#e0f2fe"/>
+      </g>
+
+      <!-- うさぎ（雲の上ですやすや） -->
+      <!-- うさぎの耳（横に寝かせ気味） -->
+      <ellipse cx="48" cy="46" rx="14" ry="6" transform="rotate(-25 48 46)" fill="#ffffff" stroke="#bae6fd" stroke-width="2"/>
+      <ellipse cx="48" cy="46" rx="9" ry="3.5" transform="rotate(-25 48 46)" fill="#38bdf8" opacity="0.3"/>
+      
+      <ellipse cx="42" cy="51" rx="13" ry="5.5" transform="rotate(-40 42 51)" fill="#ffffff" stroke="#bae6fd" stroke-width="2"/>
+      <ellipse cx="42" cy="51" rx="8" ry="3" transform="rotate(-40 42 51)" fill="#38bdf8" opacity="0.3"/>
+
+      <!-- うさぎの体＆顔（まるまって寝ている） -->
+      <ellipse cx="62" cy="58" rx="16" ry="13" fill="#ffffff" stroke="#bae6fd" stroke-width="2"/>
+      
+      <!-- すやすや目 (u_u) -->
+      <path d="M 66 57 Q 69 61 72 57" stroke="#0369a1" stroke-width="2" stroke-linecap="round" fill="none"/>
+      
+      <!-- ほんのりピンク水色のほっぺ -->
+      <circle cx="73" cy="61" r="3" fill="#38bdf8" opacity="0.4"/>
+
+      <!-- すやすやの「zZZ」 -->
+      <text x="82" y="42" fill="#38bdf8" font-size="10" font-weight="bold" font-family="sans-serif" opacity="0.8">z</text>
+      <text x="89" y="35" fill="#38bdf8" font-size="12" font-weight="bold" font-family="sans-serif" opacity="0.9">Z</text>
     </svg>
   </div>
 
