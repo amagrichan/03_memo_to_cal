@@ -1,409 +1,545 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
-
-<meta charset="UTF-8">
-<meta
-name="viewport"
-content="width=device-width,initial-scale=1.0,viewport-fit=cover">
-
-<title>Memo Calendar</title>
-
-<meta name="theme-color" content="#ffffff">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Memo Calendar">
-
-<link rel="manifest" href="manifest.json">
-
-<link rel="apple-touch-icon"
-href="icons/icon-192.png">
-
-<link rel="icon"
-href="icons/favicon.ico">
-
-<link rel="preconnect"
-href="https://fonts.googleapis.com">
-
-<link rel="preconnect"
-href="https://fonts.gstatic.com"
-crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap"
-rel="stylesheet">
-
-<link rel="stylesheet"
-href="style.css">
-
-</head>
-
-<body>
-
-<div class="background">
-
-<div class="blur blur1"></div>
-<div class="blur blur2"></div>
-<div class="blur blur3"></div>
-
-<div class="sparkles">
-
-<span></span>
-<span></span>
-<span></span>
-<span></span>
-<span></span>
-<span></span>
-<span></span>
-<span></span>
-
-</div>
-
-</div>
-
-<header>
-
-<div class="logo">
-
-<div class="logo-circle">
-✨
-</div>
-
-<div>
-
-<h1>
-Memo Calendar
-</h1>
-
-<p>
-AIでメモから予定を整理
-</p>
-
-</div>
-
-</div>
-
-<nav>
-
-<button
-class="glassButton"
-id="installButton">
-
-アプリを追加
-
-</button>
-
-</nav>
-
-</header>
-
-<main>
-
-<section class="hero">
-
-<h2>
-
-今日の予定を書くだけ
-
-</h2>
-
-<p>
-
-メモを入力すると、
-件名・日時・内容を自動で整理し、
-カレンダーへ追加できます。
-
-</p>
-
-</section>
-
-<section class="glassCard">
-
-<div class="cardTitle">
-
-📝 メモ入力
-
-</div>
-
-<textarea
-
-id="memo"
-
-placeholder="例
-
-明日の14時 歯医者
-
-保険証を持つ
-コンビニへ寄る
-診察券"
-
-></textarea>
-
-<div class="buttonArea">
-
-<button
-id="analyzeButton"
-class="primaryButton">
-
-✨ AI解析する
-
-</button>
-
-<button
-id="clearButton"
-class="subButton">
-
-クリア
-
-</button>
-
-</div>
-
-</section>
-<section
-class="glassCard resultCard"
-id="resultCard"
-style="display:none;">
-
-<div class="cardTitle">
-
-📅 解析結果
-
-</div>
-
-<div class="resultItem">
-
-<label>
-
-件名
-
-</label>
-
-<input
-type="text"
-id="eventTitle">
-
-</div>
-
-<div class="resultItem">
-
-<label>
-
-日付
-
-</label>
-
-<input
-type="date"
-id="eventDate">
-
-</div>
-
-<div class="resultRow">
-
-<div class="resultItem">
-
-<label>
-
-開始
-
-</label>
-
-<input
-type="time"
-id="startTime">
-
-</div>
-
-<div class="resultItem">
-
-<label>
-
-終了
-
-</label>
-
-<input
-type="time"
-id="endTime">
-
-</div>
-
-</div>
-
-<div class="resultItem">
-
-<label>
-
-内容
-
-</label>
-
-<textarea
-id="eventDescription"></textarea>
-
-</div>        <div class="buttonArea bottomButtons">
-
-            <button
-                id="downloadButton"
-                class="primaryButton">
-
-                📅 カレンダーへ追加
-
-            </button>
-
-            <button
-                id="editButton"
-                class="subButton">
-
-                ✏ 編集
-
-            </button>
-
-        </div>
-
-    </section>
-
-    <!-- 完了モーダル -->
-
-    <div
-        class="modal"
-        id="completeModal">
-
-        <div class="modalCard">
-
-            <div class="modalIcon">
-                ✨
-            </div>
-
-            <h2>
-
-                ICSファイルを作成しました
-
-            </h2>
-
-            <p>
-
-                ダウンロードしたファイルを
-                iPhoneで開くと、
-                標準カレンダーへ追加できます。
-
-            </p>
-
-            <button
-                id="closeModal"
-                class="primaryButton">
-
-                OK
-
-            </button>
-
-        </div>
-
-    </div>
-
-</main>
-
-<footer>
-
-    <div class="footerGlass">
-
-        <div>
-
-            <strong>
-
-                Memo Calendar
-
-            </strong>
-
-        </div>
-
-        <div>
-
-            AIでメモを予定に変える
-            シンプルなカレンダーアプリ
-
-        </div>
-
-    </div>
-
-</footer>
-
-<!-- キラキラ背景 -->
-
-<div class="shine shine1"></div>
-<div class="shine shine2"></div>
-<div class="shine shine3"></div>
-
-<!-- Script -->
-
-<script src="script.js"></script>
-
-<script>
-
-if ("serviceWorker" in navigator) {
-
-    window.addEventListener("load", () => {
-
-        navigator.serviceWorker.register("./service-worker.js")
-            .then(() => {
-
-                console.log("Service Worker Registered");
-
-            })
-            .catch(err => {
-
-                console.log(err);
-
-            });
-
-    });
-
-}
-
-</script>
-
-<script>
-
-let deferredPrompt;
-
-const installButton =
-document.getElementById("installButton");
-
-window.addEventListener("beforeinstallprompt", (e)=>{
-
-    e.preventDefault();
-
-    deferredPrompt = e;
-
-    installButton.style.display = "inline-flex";
-
-});
-
-installButton.addEventListener("click", async()=>{
-
-    if(!deferredPrompt) return;
-
-    deferredPrompt.prompt();
-
-    await deferredPrompt.userChoice;
-
-    deferredPrompt = null;
-
-    installButton.style.display="none";
-
-});
-
-window.addEventListener("appinstalled",()=>{
-
-    installButton.style.display="none";
-
-});
-
-</script>
-
-</body>
-
-</html>
-
-
+  <meta charset="UTF-8">
+
+  <!-- iPhone / PWA表示向け -->
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
+  <meta name="theme-color" content="#eef9ff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="black-translucent"
+  >
+  <meta name="apple-mobile-web-app-title" content="きらめきカレンダー">
+
+  <title>きらめきカレンダー</title>
+
+  <style>
+    /* ========================================
+       基本設定
+    ======================================== */
+
+    :root {
+      --ink: #27374d;
+      --muted: #71849c;
+      --blue: #69aefc;
+      --blue-dark: #418ee9;
+      --sky: #dff5ff;
+      --white-glass: rgba(255, 255, 255, 0.57);
+      --border: rgba(255, 255, 255, 0.82);
+      --shadow:
+        0 25px 70px rgba(78, 139, 180, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      min-height: 100%;
+      background: #edf9ff;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--ink);
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Hiragino Sans",
+        "Yu Gothic UI",
+        "Yu Gothic",
+        Meiryo,
+        sans-serif;
+
+      background:
+        radial-gradient(
+          circle at 12% 12%,
+          rgba(255, 255, 255, 0.98) 0 6%,
+          transparent 25%
+        ),
+        radial-gradient(
+          circle at 82% 15%,
+          rgba(208, 242, 255, 0.88),
+          transparent 33%
+        ),
+        radial-gradient(
+          circle at 76% 82%,
+          rgba(255, 243, 222, 0.8),
+          transparent 30%
+        ),
+        linear-gradient(
+          145deg,
+          #faffff 0%,
+          #e5f7ff 43%,
+          #f9fbff 70%,
+          #fff7ec 100%
+        );
+    }
+
+    button,
+    textarea,
+    input {
+      font: inherit;
+    }
+
+    button {
+      touch-action: manipulation;
+    }
+
+    /* ========================================
+       背景装飾
+    ======================================== */
+
+    .background-effects {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .aurora {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(40px);
+      opacity: 0.62;
+      animation: floatAurora 10s ease-in-out infinite alternate;
+    }
+
+    .aurora-one {
+      top: -8%;
+      left: -9%;
+      width: 360px;
+      height: 360px;
+      background: rgba(168, 226, 255, 0.76);
+    }
+
+    .aurora-two {
+      right: -12%;
+      bottom: -7%;
+      width: 430px;
+      height: 430px;
+      background: rgba(255, 225, 183, 0.66);
+      animation-delay: -4s;
+    }
+
+    .aurora-three {
+      top: 35%;
+      left: 45%;
+      width: 280px;
+      height: 280px;
+      background: rgba(220, 207, 255, 0.38);
+      animation-delay: -2s;
+    }
+
+    @keyframes floatAurora {
+      from {
+        transform: translate3d(-12px, -10px, 0) scale(0.94);
+      }
+
+      to {
+        transform: translate3d(18px, 22px, 0) scale(1.08);
+      }
+    }
+
+    .bubbles {
+      position: absolute;
+      inset: 0;
+    }
+
+    .bubble {
+      position: absolute;
+      width: var(--size);
+      height: var(--size);
+      left: var(--left);
+      bottom: -100px;
+      border-radius: 50%;
+      opacity: 0;
+      background:
+        radial-gradient(
+          circle at 32% 28%,
+          rgba(255, 255, 255, 0.95),
+          rgba(255, 255, 255, 0.18) 42%,
+          rgba(128, 208, 255, 0.12)
+        );
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      box-shadow:
+        inset 0 0 18px rgba(255, 255, 255, 0.66),
+        0 8px 26px rgba(73, 155, 202, 0.11);
+      animation: rise var(--duration) linear infinite;
+      animation-delay: var(--delay);
+    }
+
+    @keyframes rise {
+      0% {
+        transform: translateY(0) scale(0.72);
+        opacity: 0;
+      }
+
+      15% {
+        opacity: 0.7;
+      }
+
+      85% {
+        opacity: 0.4;
+      }
+
+      100% {
+        transform: translateY(-125vh) translateX(25px) scale(1.12);
+        opacity: 0;
+      }
+    }
+
+    .sparkles {
+      position: absolute;
+      inset: 0;
+    }
+
+    .sparkle {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
+      width: var(--spark-size);
+      height: var(--spark-size);
+      animation: twinkle var(--speed) ease-in-out infinite;
+      animation-delay: var(--delay);
+      opacity: 0;
+    }
+
+    .sparkle::before,
+    .sparkle::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.98);
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.96);
+    }
+
+    .sparkle::before {
+      width: 2px;
+      height: 100%;
+    }
+
+    .sparkle::after {
+      width: 100%;
+      height: 2px;
+    }
+
+    @keyframes twinkle {
+      0%,
+      100% {
+        opacity: 0;
+        transform: scale(0.35) rotate(0deg);
+      }
+
+      45% {
+        opacity: 1;
+        transform: scale(1.05) rotate(30deg);
+      }
+
+      58% {
+        opacity: 0.72;
+        transform: scale(0.72) rotate(45deg);
+      }
+    }
+
+    /* ========================================
+       レイアウト
+    ======================================== */
+
+    .app-shell {
+      width: min(100%, 920px);
+      min-height: 100vh;
+      min-height: 100dvh;
+      margin: 0 auto;
+      padding:
+        max(24px, env(safe-area-inset-top))
+        18px
+        max(35px, env(safe-area-inset-bottom));
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 25px;
+      padding: 0 6px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      flex: 0 0 auto;
+      border: 1px solid rgba(255, 255, 255, 0.88);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.52);
+      box-shadow:
+        0 12px 32px rgba(81, 144, 184, 0.13),
+        inset 0 1px 0 #fff;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .brand-icon::after {
+      content: "✦";
+      position: absolute;
+      right: -4px;
+      top: -6px;
+      color: #ffc96d;
+      font-size: 18px;
+      filter: drop-shadow(0 0 6px #fff);
+      animation: iconTwinkle 2s ease-in-out infinite;
+    }
+
+    @keyframes iconTwinkle {
+      50% {
+        transform: rotate(25deg) scale(1.25);
+      }
+    }
+
+    .mini-bunny {
+      position: relative;
+      width: 28px;
+      height: 24px;
+      margin-top: 8px;
+      border-radius: 50% 50% 46% 46%;
+      background: linear-gradient(145deg, #fff, #e5f5ff);
+      box-shadow:
+        inset -3px -3px 5px rgba(148, 193, 222, 0.23),
+        0 4px 7px rgba(100, 158, 192, 0.16);
+    }
+
+    .mini-bunny::before,
+    .mini-bunny::after {
+      content: "";
+      position: absolute;
+      top: -13px;
+      width: 9px;
+      height: 20px;
+      border-radius: 80% 80% 45% 45%;
+      background: linear-gradient(145deg, #fff, #e6f6ff);
+      box-shadow: inset 0 -4px 3px rgba(135, 192, 224, 0.15);
+    }
+
+    .mini-bunny::before {
+      left: 3px;
+      transform: rotate(-10deg);
+    }
+
+    .mini-bunny::after {
+      right: 3px;
+      transform: rotate(10deg);
+    }
+
+    .bunny-face {
+      position: absolute;
+      inset: 0;
+    }
+
+    .bunny-face::before {
+      content: "•  •";
+      position: absolute;
+      top: 5px;
+      left: 7px;
+      color: #6188a4;
+      font-size: 8px;
+      letter-spacing: 4px;
+    }
+
+    .bunny-face::after {
+      content: "ᵕ";
+      position: absolute;
+      top: 8px;
+      left: 11px;
+      color: #ef9ba7;
+      font-size: 9px;
+    }
+
+    .brand-text small {
+      display: block;
+      margin-bottom: 2px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+    }
+
+    .brand-text strong {
+      display: block;
+      color: #344c65;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(20px, 4.8vw, 28px);
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .today-chip {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 40px;
+      padding: 8px 13px;
+      border: 1px solid rgba(255, 255, 255, 0.88);
+      border-radius: 999px;
+      color: #5c7590;
+      background: rgba(255, 255, 255, 0.5);
+      box-shadow:
+        0 10px 24px rgba(64, 134, 180, 0.1),
+        inset 0 1px 0 #fff;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1.02fr 0.98fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .glass-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      background:
+        linear-gradient(
+          140deg,
+          rgba(255, 255, 255, 0.72),
+          rgba(255, 255, 255, 0.38)
+        );
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(28px) saturate(140%);
+      -webkit-backdrop-filter: blur(28px) saturate(140%);
+    }
+
+    .glass-card::before {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      top: -70px;
+      left: -45px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.58);
+      filter: blur(20px);
+      pointer-events: none;
+    }
+
+    .input-card,
+    .preview-card {
+      padding: clamp(21px, 4.6vw, 32px);
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 8px;
+      color: #6f93ae;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: linear-gradient(90deg, #80bdf0, transparent);
+    }
+
+    h1 {
+      margin: 0;
+      color: #304a65;
+      font-family: Georgia, "Yu Mincho", "Hiragino Mincho ProN", serif;
+      font-size: clamp(29px, 6.8vw, 43px);
+      font-weight: 500;
+      line-height: 1.25;
+      letter-spacing: 0.015em;
+    }
+
+    .lead {
+      margin: 15px 0 23px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.95;
+    }
+
+    .input-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 9px;
+      color: #48627c;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .input-label span {
+      color: #8ca0b3;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .memo-wrapper {
+      position: relative;
+    }
+
+    #memo {
+      width: 100%;
+      min-height: 220px;
+      resize: vertical;
+      padding: 19px 18px 55px;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 23px;
+      outline: none;
+      color: #2f4962;
+      background: rgba(250, 254, 255, 0.62);
+      box-shadow:
+        inset 0 2px 9px rgba(62, 127, 167, 0.06),
+        0 11px 30px rgba(58, 126, 171, 0.06);
+      caret-color: var(--blue-dark);
+      line-height: 1.85;
+      transition:
+        border-color 0.25s,
+        box-shadow 0.25s,
+        transform 0.25s;
+    }
+
+    #memo:focus {
+      border-color: rgba(104, 177, 239
