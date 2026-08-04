@@ -61,7 +61,7 @@
     /* 空に浮かぶヘッダータイトルアニメーション */
     .header {
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
       z-index: 1;
       animation: floatTitle 4s infinite ease-in-out;
     }
@@ -94,10 +94,10 @@
       font-weight: 700;
     }
 
-    /* コンテナ（デバイスに応じた幅の自動調整） */
+    /* コンテナ（自動幅調整） */
     .container {
       width: 100%;
-      max-width: 520px; /* PCでの最大幅 */
+      max-width: 520px;
       background: var(--card-bg);
       border-radius: 32px;
       padding: clamp(20px, 5vw, 32px);
@@ -108,27 +108,31 @@
       backdrop-filter: blur(8px);
     }
 
-    /* ゆらゆら浮かぶ飾り雲 */
-    .cloud-decoration {
+    /* ゆらゆら浮かぶうさぎ雲バッジ */
+    .bunny-cloud-badge {
       position: absolute;
-      top: -22px;
-      right: 24px;
+      top: -30px;
+      right: 20px;
       background: #ffffff;
-      padding: 6px 16px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      color: var(--primary-blue);
-      box-shadow: 0 6px 16px rgba(56, 189, 248, 0.2);
+      padding: 6px 14px;
+      border-radius: 30px;
+      box-shadow: 0 8px 20px rgba(56, 189, 248, 0.25);
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-weight: bold;
+      justify-content: center;
       animation: floatCloud 3.5s infinite ease-in-out;
+      border: 2px solid #e0f2fe;
+    }
+
+    .bunny-icon {
+      width: 44px;
+      height: 44px;
+      display: block;
     }
 
     @keyframes floatCloud {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
+      50% { transform: translateY(-7px); }
     }
 
     .input-group {
@@ -311,8 +315,33 @@
 </div>
 
 <div class="container">
-  <div class="cloud-decoration">
-    <i class="fa-solid fa-cloud"></i> ぽかぽか機能
+  <!-- オリジナル水色うさぎバッジ（「ぽかぽか機能」テキストなし） -->
+  <div class="bunny-cloud-badge">
+    <svg class="bunny-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- 左耳 -->
+      <ellipse cx="36" cy="22" rx="9" ry="20" fill="#ffffff" stroke="#bae6fd" stroke-width="3"/>
+      <ellipse cx="36" cy="22" rx="5" ry="14" fill="#38bdf8" opacity="0.4"/>
+      <!-- 右耳 -->
+      <ellipse cx="64" cy="22" rx="9" ry="20" fill="#ffffff" stroke="#bae6fd" stroke-width="3"/>
+      <ellipse cx="64" cy="22" rx="5" ry="14" fill="#38bdf8" opacity="0.4"/>
+      <!-- 顔 -->
+      <circle cx="50" cy="54" r="28" fill="#ffffff" stroke="#bae6fd" stroke-width="3"/>
+      <!-- ほっぺ（ピンク風味の水色） -->
+      <ellipse cx="34" cy="60" rx="5" ry="3" fill="#38bdf8" opacity="0.3"/>
+      <ellipse cx="66" cy="60" rx="5" ry="3" fill="#38bdf8" opacity="0.3"/>
+      <!-- 目 -->
+      <circle cx="38" cy="52" r="3.5" fill="#0369a1"/>
+      <circle cx="62" cy="52" r="3.5" fill="#0369a1"/>
+      <circle cx="39.5" cy="50.5" r="1.2" fill="#ffffff"/>
+      <circle cx="63.5" cy="50.5" r="1.2" fill="#ffffff"/>
+      <!-- 口・鼻 -->
+      <path d="M47.5 57 C 49 59, 51 59, 52.5 57" stroke="#0369a1" stroke-width="2" stroke-linecap="round"/>
+      <polygon points="50,55 48.5,53 51.5,53" fill="#38bdf8"/>
+      <!-- リボン -->
+      <path d="M 60 38 Q 66 32 68 40 Q 62 42 60 38 Z" fill="#38bdf8"/>
+      <path d="M 60 38 Q 66 44 68 36 Q 62 34 60 38 Z" fill="#38bdf8"/>
+      <circle cx="60" cy="38" r="2.5" fill="#0284c7"/>
+    </svg>
   </div>
 
   <div class="input-group">
@@ -382,7 +411,6 @@ function parseMemo() {
   let hour = 10;
   let minute = 0;
 
-  // 相対日付の判定（今日・明日・明後日）
   if (text.includes('明日') || text.includes('あした')) {
     const tomorrow = new Date(now);
     tomorrow.setDate(now.getDate() + 1);
@@ -396,7 +424,6 @@ function parseMemo() {
     month = dayAfter.getMonth() + 1;
     day = dayAfter.getDate();
   } else {
-    // 年月日のパターン検索
     const fullDateMatch = text.match(/(\d{4})[\/\.-年](\d{1,2})[\/\.-月](\d{1,2})/);
     const shortDateMatch = text.match(/(\d{1,2})[\/\.-月](\d{1,2})日?/);
 
@@ -410,7 +437,6 @@ function parseMemo() {
     }
   }
 
-  // 時間のマッチング
   const timeMatch = text.match(/(\d{1,2})[:：](\d{2})/) || text.match(/(\d{1,2})時((\d{1,2})分)?/);
   if (timeMatch) {
     hour = parseInt(timeMatch[1]);
@@ -421,7 +447,6 @@ function parseMemo() {
     }
   }
 
-  // タイトルと本文の抽出
   const lines = text.split('\n').map(l => l.trim()).filter(l => l !== '');
   let titleText = lines[0] || '新規予定';
   titleText = titleText
@@ -445,7 +470,6 @@ function parseMemo() {
     description: description
   };
 
-  // 画面へ表示
   const pad = n => String(n).padStart(2, '0');
   document.getElementById('resDateTime').textContent = 
     `${year}年${month}月${day}日 ${pad(hour)}:${pad(minute)} 〜 ${pad(hour+1)}:${pad(minute)}`;
