@@ -58,7 +58,7 @@
       50% { transform: translateY(-20px) scale(1.3); opacity: 0.8; }
     }
 
-    /* 空に浮かぶヘッダータイトルアニメーション */
+    /* 空に浮かぶヘッダー */
     .header {
       text-align: center;
       margin-bottom: 36px;
@@ -108,27 +108,29 @@
       backdrop-filter: blur(8px);
     }
 
-    /* 【枠外配置】もこもこ雲に乗ったおやすみうさぎ */
+    /* 【枠外・右上へ移動】画像のうさぎ配置 */
     .outside-bunny-wrapper {
       position: absolute;
-      top: -55px; /* 枠外の上に飛び出させる */
-      right: -10px; /* 枠外の右側に寄せる */
-      width: 110px;
-      height: 110px;
+      top: -85px;    /* さらに上に位置を調整 */
+      right: -30px;   /* さらに右に飛び出させる */
+      width: 140px;   /* 画像が綺麗に見える大きさに設定 */
+      height: 140px;
       pointer-events: none;
       z-index: 10;
       animation: floatBunnyCloud 4s infinite ease-in-out;
     }
 
-    .bunny-svg {
+    .bunny-img {
       width: 100%;
       height: 100%;
-      filter: drop-shadow(0 8px 16px rgba(56, 189, 248, 0.3));
+      object-fit: contain;
+      border-radius: 24px; /* 角をほんのり丸めてなじませる */
+      filter: drop-shadow(0 10px 20px rgba(186, 230, 253, 0.6));
     }
 
     @keyframes floatBunnyCloud {
       0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-10px) rotate(2deg); }
+      50% { transform: translateY(-12px) rotate(3deg); }
     }
 
     .input-group {
@@ -259,10 +261,6 @@
       box-shadow: 0 6px 16px rgba(34, 197, 94, 0.3);
     }
 
-    .btn-apple:hover, .btn-timetree:hover {
-      transform: translateY(-2px);
-    }
-
     .tip-box {
       margin-top: 14px;
       font-size: 0.78rem;
@@ -298,13 +296,11 @@
 </head>
 <body>
 
-<!-- キラキラの背景演出 -->
 <i class="fa-solid fa-star sparkle" style="top: 10%; left: 8%; font-size: 1.2rem; animation-delay: 0s;"></i>
 <i class="fa-solid fa-sparkles sparkle" style="top: 20%; right: 10%; font-size: 1.5rem; animation-delay: 1.5s;"></i>
 <i class="fa-solid fa-cloud sparkle" style="top: 75%; left: 5%; font-size: 2rem; animation-delay: 2.5s;"></i>
 <i class="fa-solid fa-star sparkle" style="bottom: 12%; right: 8%; font-size: 1rem; animation-delay: 0.8s;"></i>
 
-<!-- 空にゆらゆら浮かぶヘッダー -->
 <div class="header">
   <h1><i class="fa-solid fa-cloud-moon" style="color: #38bdf8;"></i> ふわっとメモカレンダー</h1>
   <p>✨ メモを入れるだけでカレンダーにすぐ登録できるよ ✨</p>
@@ -312,49 +308,10 @@
 
 <div class="container">
 
-  <!-- 枠外に配置した「もこもこ雲に乗ったおやすみうさぎ」 -->
+  <!-- 枠外の右上に配置した添付画像 -->
   <div class="outside-bunny-wrapper">
-    <svg class="bunny-svg" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- 三日月 -->
-      <path d="M 25 28 A 12 12 0 0 0 37 40 A 10 10 0 0 1 25 28 Z" fill="#fef08a"/>
-      <!-- ちいさな星 -->
-      <polygon points="90,20 92,24 96,25 93,28 94,32 90,30 86,32 87,28 84,25 88,24" fill="#fef08a"/>
-      <polygon points="18,55 19.5,58 22.5,58.5 20,60.5 21,63.5 18,62 15,63.5 16,60.5 13.5,58.5 16.5,58" fill="#bae6fd"/>
-
-      <!-- もこもこ雲本体 -->
-      <g filter="drop-shadow(0 4px 6px rgba(56,189,248,0.15))">
-        <path d="M 25 80 
-                 C 15 80, 10 70, 20 62 
-                 C 15 50, 30 42, 42 48 
-                 C 50 38, 70 38, 78 48 
-                 C 90 42, 105 50, 100 62 
-                 C 110 70, 105 80, 95 80 
-                 Z" fill="#ffffff"/>
-        <!-- 雲のニュアンス陰影（水色） -->
-        <path d="M 25 80 C 40 85, 80 85, 95 80 C 102 75, 98 68, 92 70 C 75 78, 40 78, 25 70 Z" fill="#e0f2fe"/>
-      </g>
-
-      <!-- うさぎ（雲の上ですやすや） -->
-      <!-- うさぎの耳（横に寝かせ気味） -->
-      <ellipse cx="48" cy="46" rx="14" ry="6" transform="rotate(-25 48 46)" fill="#ffffff" stroke="#bae6fd" stroke-width="2"/>
-      <ellipse cx="48" cy="46" rx="9" ry="3.5" transform="rotate(-25 48 46)" fill="#38bdf8" opacity="0.3"/>
-      
-      <ellipse cx="42" cy="51" rx="13" ry="5.5" transform="rotate(-40 42 51)" fill="#ffffff" stroke="#bae6fd" stroke-width="2"/>
-      <ellipse cx="42" cy="51" rx="8" ry="3" transform="rotate(-40 42 51)" fill="#38bdf8" opacity="0.3"/>
-
-      <!-- うさぎの体＆顔（まるまって寝ている） -->
-      <ellipse cx="62" cy="58" rx="16" ry="13" fill="#ffffff" stroke="#bae6fd" stroke-width="2"/>
-      
-      <!-- すやすや目 (u_u) -->
-      <path d="M 66 57 Q 69 61 72 57" stroke="#0369a1" stroke-width="2" stroke-linecap="round" fill="none"/>
-      
-      <!-- ほんのりピンク水色のほっぺ -->
-      <circle cx="73" cy="61" r="3" fill="#38bdf8" opacity="0.4"/>
-
-      <!-- すやすやの「zZZ」 -->
-      <text x="82" y="42" fill="#38bdf8" font-size="10" font-weight="bold" font-family="sans-serif" opacity="0.8">z</text>
-      <text x="89" y="35" fill="#38bdf8" font-size="12" font-weight="bold" font-family="sans-serif" opacity="0.9">Z</text>
-    </svg>
+    <!-- 保存した画像ファイル名に合わせて src を変更してください (例: bunny.png) -->
+    <img src="bunny.png" alt="おやすみうさぎ" class="bunny-img">
   </div>
 
   <div class="input-group">
@@ -366,7 +323,6 @@
     <i class="fa-solid fa-wand-magic-sparkles"></i> 予定を魔法でまとめる
   </button>
 
-  <!-- 結果表示エリア -->
   <div id="previewCard" class="preview-card">
     <h2><i class="fa-solid fa-wand-sparkles" style="color: #38bdf8;"></i> まとめた結果</h2>
     
@@ -386,12 +342,10 @@
     </div>
 
     <div class="calendar-actions">
-      <!-- iPhoneカレンダーボタン -->
       <button class="btn btn-apple" onclick="downloadICS()">
         <i class="fa-brands fa-apple"></i> iPhoneカレンダーに追加 (.ics)
       </button>
 
-      <!-- TimeTreeボタン -->
       <button class="btn btn-timetree" onclick="openTimeTree()">
         <i class="fa-solid fa-tree"></i> TimeTreeに追加（コピー＆起動）
       </button>
