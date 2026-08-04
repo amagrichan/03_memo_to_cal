@@ -542,4 +542,1745 @@
     }
 
     #memo:focus {
-      border-color: rgba(104, 177, 239
+      border-color: rgba(104, 177, 239, 0.52);
+      box-shadow:
+        0 0 0 5px rgba(104, 177, 239, 0.12),
+        inset 0 2px 9px rgba(62, 127, 167, 0.06),
+        0 16px 38px rgba(58, 126, 171, 0.1);
+      transform: translateY(-1px);
+    }
+
+    #memo::placeholder {
+      color: #9cabb9;
+    }
+
+    .memo-helper {
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      display: flex;
+      gap: 6px;
+    }
+
+    .helper-tag {
+      padding: 5px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.86);
+      border-radius: 999px;
+      color: #7c96aa;
+      background: rgba(255, 255, 255, 0.54);
+      font-size: 9px;
+      font-weight: 800;
+      box-shadow: 0 4px 12px rgba(87, 142, 177, 0.06);
+    }
+
+    .example-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 13px;
+      overflow-x: auto;
+      padding: 1px 1px 6px;
+      scrollbar-width: none;
+    }
+
+    .example-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .example-button {
+      flex: 0 0 auto;
+      padding: 9px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.88);
+      border-radius: 999px;
+      color: #668197;
+      background: rgba(255, 255, 255, 0.43);
+      box-shadow: 0 6px 15px rgba(74, 139, 181, 0.07);
+      font-size: 10px;
+      font-weight: 750;
+      cursor: pointer;
+      transition:
+        transform 0.2s,
+        background 0.2s;
+    }
+
+    .example-button:active {
+      transform: scale(0.96);
+      background: rgba(255, 255, 255, 0.76);
+    }
+
+    .action-button {
+      position: relative;
+      width: 100%;
+      min-height: 59px;
+      margin-top: 17px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.92);
+      border-radius: 20px;
+      color: #fff;
+      background:
+        linear-gradient(
+          120deg,
+          #81caff 0%,
+          #67aff8 42%,
+          #8fbcff 100%
+        );
+      box-shadow:
+        0 14px 32px rgba(75, 155, 225, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.72);
+      font-size: 15px;
+      font-weight: 850;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      transition:
+        transform 0.22s,
+        box-shadow 0.22s,
+        filter 0.22s;
+    }
+
+    .action-button::before {
+      content: "";
+      position: absolute;
+      inset: -50%;
+      background:
+        linear-gradient(
+          110deg,
+          transparent 35%,
+          rgba(255, 255, 255, 0.6) 50%,
+          transparent 65%
+        );
+      transform: translateX(-70%) rotate(8deg);
+      animation: shine 4.4s ease-in-out infinite;
+    }
+
+    @keyframes shine {
+      0%,
+      65% {
+        transform: translateX(-70%) rotate(8deg);
+      }
+
+      100% {
+        transform: translateX(70%) rotate(8deg);
+      }
+    }
+
+    .action-button:hover {
+      filter: brightness(1.03);
+      box-shadow:
+        0 18px 40px rgba(75, 155, 225, 0.34),
+        inset 0 1px 0 rgba(255, 255, 255, 0.72);
+      transform: translateY(-2px);
+    }
+
+    .action-button:active {
+      transform: translateY(1px) scale(0.985);
+    }
+
+    .button-content {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+    }
+
+    .privacy-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin: 14px 3px 0;
+      color: #899aa9;
+      font-size: 10px;
+      line-height: 1.65;
+    }
+
+    /* ========================================
+       プレビュー
+    ======================================== */
+
+    .preview-card {
+      min-height: 100%;
+    }
+
+    .preview-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 17px;
+    }
+
+    .preview-title small {
+      display: block;
+      margin-bottom: 5px;
+      color: #8aa0b4;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.15em;
+    }
+
+    .preview-title h2 {
+      margin: 0;
+      color: #344e68;
+      font-family: Georgia, "Yu Mincho", serif;
+      font-size: 24px;
+      font-weight: 500;
+    }
+
+    .status-dot {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 10px;
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      border-radius: 999px;
+      color: #7890a3;
+      background: rgba(255, 255, 255, 0.44);
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+    .status-dot::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #8cd6aa;
+      box-shadow: 0 0 0 4px rgba(140, 214, 170, 0.14);
+    }
+
+    .event-sheet {
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.92);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.47);
+      box-shadow:
+        0 18px 40px rgba(70, 129, 164, 0.09),
+        inset 0 1px 0 #fff;
+    }
+
+    .event-row {
+      display: grid;
+      grid-template-columns: 43px 1fr;
+      gap: 12px;
+      padding: 18px;
+      border-bottom: 1px solid rgba(153, 186, 207, 0.21);
+    }
+
+    .event-row:last-child {
+      border-bottom: 0;
+    }
+
+    .event-icon {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.84);
+      border-radius: 13px;
+      color: #4c9aeb;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.9),
+          rgba(218, 243, 255, 0.66)
+        );
+      box-shadow:
+        0 8px 20px rgba(66, 139, 188, 0.1),
+        inset 0 1px 0 #fff;
+      font-size: 18px;
+    }
+
+    .event-info {
+      min-width: 0;
+    }
+
+    .event-label {
+      display: block;
+      margin-bottom: 5px;
+      color: #879bad;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.11em;
+    }
+
+    .event-value {
+      overflow-wrap: anywhere;
+      color: #354e67;
+      font-size: 13px;
+      font-weight: 720;
+      line-height: 1.65;
+    }
+
+    .event-value.primary {
+      color: #2d4862;
+      font-family: Georgia, "Yu Mincho", serif;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.45;
+    }
+
+    .event-value.date-value {
+      color: #397fc5;
+    }
+
+    .event-description {
+      max-height: 124px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      font-weight: 500;
+    }
+
+    .calendar-button {
+      margin-top: 16px;
+    }
+
+    .calendar-button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      filter: grayscale(0.15);
+      transform: none;
+    }
+
+    .edit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .edit-field {
+      min-width: 0;
+    }
+
+    .edit-field.full {
+      grid-column: 1 / -1;
+    }
+
+    .edit-field label {
+      display: block;
+      margin: 0 0 6px 4px;
+      color: #7890a3;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+
+    .edit-input {
+      width: 100%;
+      min-height: 43px;
+      border: 1px solid rgba(255, 255, 255, 0.87);
+      border-radius: 13px;
+      outline: none;
+      padding: 10px 11px;
+      color: #405a72;
+      background: rgba(255, 255, 255, 0.43);
+      box-shadow: inset 0 1px 5px rgba(63, 127, 168, 0.05);
+      font-size: 11px;
+    }
+
+    .edit-input:focus {
+      border-color: rgba(91, 163, 225, 0.5);
+      box-shadow: 0 0 0 4px rgba(104, 177, 239, 0.1);
+    }
+
+    .empty-message {
+      padding: 45px 22px;
+      text-align: center;
+      color: #8ca0b1;
+    }
+
+    .empty-bunny {
+      position: relative;
+      width: 82px;
+      height: 68px;
+      margin: 22px auto 26px;
+      border-radius: 50% 50% 44% 44%;
+      background:
+        radial-gradient(
+          circle at 35% 25%,
+          #fff,
+          #f7fcff 50%,
+          #d9f1ff 100%
+        );
+      box-shadow:
+        0 18px 38px rgba(79, 150, 190, 0.15),
+        inset -8px -8px 14px rgba(137, 196, 229, 0.15);
+      animation: bunnyFloat 3.2s ease-in-out infinite;
+    }
+
+    @keyframes bunnyFloat {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-7px);
+      }
+    }
+
+    .empty-bunny::before,
+    .empty-bunny::after {
+      content: "";
+      position: absolute;
+      top: -44px;
+      width: 26px;
+      height: 58px;
+      border-radius: 70% 70% 35% 35%;
+      background:
+        linear-gradient(
+          145deg,
+          #fff,
+          #e5f6ff
+        );
+      box-shadow:
+        inset 0 -8px 10px rgba(131, 190, 224, 0.12),
+        0 5px 12px rgba(70, 139, 180, 0.08);
+    }
+
+    .empty-bunny::before {
+      left: 8px;
+      transform: rotate(-8deg);
+    }
+
+    .empty-bunny::after {
+      right: 8px;
+      transform: rotate(8deg);
+    }
+
+    .empty-eyes {
+      position: absolute;
+      top: 28px;
+      left: 21px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #5b7d98;
+      box-shadow: 33px 0 0 #5b7d98;
+    }
+
+    .empty-mouth {
+      position: absolute;
+      left: 35px;
+      top: 38px;
+      color: #ee9daf;
+      font-size: 17px;
+      line-height: 1;
+    }
+
+    .empty-star {
+      position: absolute;
+      right: -14px;
+      top: -14px;
+      color: #ffd480;
+      font-size: 29px;
+      filter: drop-shadow(0 0 7px #fff);
+      animation: iconTwinkle 1.9s ease-in-out infinite;
+    }
+
+    .empty-message strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #5e7891;
+      font-family: Georgia, "Yu Mincho", serif;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .empty-message p {
+      margin: 0;
+      font-size: 11px;
+      line-height: 1.8;
+    }
+
+    /* ========================================
+       トースト通知
+    ======================================== */
+
+    .toast {
+      position: fixed;
+      z-index: 1000;
+      left: 50%;
+      bottom: max(24px, calc(env(safe-area-inset-bottom) + 14px));
+      width: max-content;
+      max-width: calc(100% - 32px);
+      padding: 13px 17px;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 999px;
+      color: #fff;
+      background: rgba(52, 78, 104, 0.86);
+      box-shadow:
+        0 17px 40px rgba(30, 61, 85, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      font-size: 12px;
+      font-weight: 750;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 18px) scale(0.96);
+      transition:
+        opacity 0.3s,
+        transform 0.3s;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0) scale(1);
+    }
+
+    /* ========================================
+       レスポンシブ
+    ======================================== */
+
+    @media (max-width: 760px) {
+      .app-shell {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        margin-bottom: 18px;
+      }
+
+      .input-card,
+      .preview-card {
+        border-radius: 28px;
+      }
+
+      #memo {
+        min-height: 195px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .today-chip {
+        padding: 8px 10px;
+        font-size: 10px;
+      }
+
+      .brand-icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 16px;
+      }
+
+      .brand-text small {
+        font-size: 8px;
+      }
+
+      .brand-text strong {
+        font-size: 20px;
+      }
+
+      .edit-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .edit-field.full {
+        grid-column: auto;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 背景の泡・光 -->
+  <div class="background-effects" aria-hidden="true">
+    <div class="aurora aurora-one"></div>
+    <div class="aurora aurora-two"></div>
+    <div class="aurora aurora-three"></div>
+
+    <div class="bubbles" id="bubbles"></div>
+    <div class="sparkles" id="sparkles"></div>
+  </div>
+
+  <main class="app-shell">
+    <!-- ヘッダー -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <div class="mini-bunny">
+            <div class="bunny-face"></div>
+          </div>
+        </div>
+
+        <div class="brand-text">
+          <small>MEMO TO CALENDAR</small>
+          <strong>Lumi Calendar</strong>
+        </div>
+      </div>
+
+      <div class="today-chip">
+        <span>✦</span>
+        <span id="todayText">今日</span>
+      </div>
+    </header>
+
+    <section class="main-grid">
+      <!-- 入力エリア -->
+      <article class="glass-card input-card">
+        <div class="card-content">
+          <p class="eyebrow">Sparkling schedule</p>
+
+          <h1>
+            メモから予定を<br>
+            やさしく作成
+          </h1>
+
+          <p class="lead">
+            日付や時間を含むメモを入力してください。<br>
+            内容を読み取り、iPhoneカレンダー用の予定にまとめます。
+          </p>
+
+          <label class="input-label" for="memo">
+            予定のメモ
+            <span>日付を1つ入力してください</span>
+          </label>
+
+          <div class="memo-wrapper">
+            <textarea
+              id="memo"
+              autocomplete="off"
+              autocapitalize="sentences"
+              placeholder="例：
+8月10日 14時から美容院
+Acot Hair Salonでカットとカラー
+住所：東京都八王子市高大沢3-10-2
+電話：042-843-3317"
+            ></textarea>
+
+            <div class="memo-helper" aria-hidden="true">
+              <span class="helper-tag">日付</span>
+              <span class="helper-tag">時間</span>
+              <span class="helper-tag">内容</span>
+            </div>
+          </div>
+
+          <div class="example-row" aria-label="入力例">
+            <button
+              class="example-button"
+              type="button"
+              data-example="明日 15時から美容院でカットとカラー。担当は田中さん。"
+            >
+              美容院の例
+            </button>
+
+            <button
+              class="example-button"
+              type="button"
+              data-example="8月15日 終日 夏祭りのお手伝い。集合場所は市民センター。持ち物はタオルと飲み物。"
+            >
+              終日の例
+            </button>
+
+            <button
+              class="example-button"
+              type="button"
+              data-example="2026/9/25 誕生日ディナー。レストランでお祝い。予約名は北山。"
+            >
+              時間なしの例
+            </button>
+          </div>
+
+          <button class="action-button" id="analyzeButton" type="button">
+            <span class="button-content">
+              <span>✦</span>
+              <span>メモから予定を作成</span>
+            </span>
+          </button>
+
+          <p class="privacy-note">
+            <span>♢</span>
+            <span>
+              入力内容は外部へ送信されません。
+              すべて端末内のJavaScriptで処理します。
+            </span>
+          </p>
+        </div>
+      </article>
+
+      <!-- プレビューエリア -->
+      <article class="glass-card preview-card">
+        <div class="card-content">
+          <div class="preview-header">
+            <div class="preview-title">
+              <small>CALENDAR PREVIEW</small>
+              <h2>予定プレビュー</h2>
+            </div>
+
+            <div class="status-dot">LOCAL</div>
+          </div>
+
+          <!-- 初期表示 -->
+          <div id="emptyState" class="empty-message">
+            <div class="empty-bunny" aria-hidden="true">
+              <span class="empty-eyes"></span>
+              <span class="empty-mouth">ᴗ</span>
+              <span class="empty-star">✦</span>
+            </div>
+
+            <strong>まだ予定はありません</strong>
+
+            <p>
+              左側にメモを入力すると、<br>
+              ここに解析結果が表示されます。
+            </p>
+          </div>
+
+          <!-- 解析後 -->
+          <div id="resultState" hidden>
+            <div class="event-sheet">
+              <div class="event-row">
+                <div class="event-icon">✦</div>
+
+                <div class="event-info">
+                  <span class="event-label">件名</span>
+                  <div
+                    class="event-value primary"
+                    id="previewTitle"
+                  >
+                    予定
+                  </div>
+                </div>
+              </div>
+
+              <div class="event-row">
+                <div class="event-icon">▣</div>
+
+                <div class="event-info">
+                  <span class="event-label">日時</span>
+                  <div
+                    class="event-value date-value"
+                    id="previewDate"
+                  >
+                    －
+                  </div>
+                </div>
+              </div>
+
+              <div class="event-row">
+                <div class="event-icon">☁</div>
+
+                <div class="event-info">
+                  <span class="event-label">内容</span>
+                  <div
+                    class="event-value event-description"
+                    id="previewDescription"
+                  >
+                    －
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 解析結果を手動修正 -->
+            <div class="edit-grid">
+              <div class="edit-field full">
+                <label for="editTitle">件名を修正</label>
+                <input
+                  class="edit-input"
+                  id="editTitle"
+                  type="text"
+                  placeholder="予定の件名"
+                >
+              </div>
+
+              <div class="edit-field">
+                <label for="editDate">日付</label>
+                <input
+                  class="edit-input"
+                  id="editDate"
+                  type="date"
+                >
+              </div>
+
+              <div class="edit-field">
+                <label for="editStart">開始時間</label>
+                <input
+                  class="edit-input"
+                  id="editStart"
+                  type="time"
+                >
+              </div>
+
+              <div class="edit-field">
+                <label for="editEnd">終了時間</label>
+                <input
+                  class="edit-input"
+                  id="editEnd"
+                  type="time"
+                >
+              </div>
+            </div>
+
+            <button
+              class="action-button calendar-button"
+              id="calendarButton"
+              type="button"
+            >
+              <span class="button-content">
+                <span>▣</span>
+                <span>iPhoneカレンダーに追加</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    "use strict";
+
+    /* ========================================
+       DOM取得
+    ======================================== */
+
+    const memoInput = document.getElementById("memo");
+    const analyzeButton = document.getElementById("analyzeButton");
+    const calendarButton = document.getElementById("calendarButton");
+
+    const emptyState = document.getElementById("emptyState");
+    const resultState = document.getElementById("resultState");
+
+    const previewTitle = document.getElementById("previewTitle");
+    const previewDate = document.getElementById("previewDate");
+    const previewDescription =
+      document.getElementById("previewDescription");
+
+    const editTitle = document.getElementById("editTitle");
+    const editDate = document.getElementById("editDate");
+    const editStart = document.getElementById("editStart");
+    const editEnd = document.getElementById("editEnd");
+
+    const toast = document.getElementById("toast");
+    const todayText = document.getElementById("todayText");
+
+    let currentEvent = null;
+    let toastTimer = null;
+
+    /* ========================================
+       初期化
+    ======================================== */
+
+    initialize();
+
+    function initialize() {
+      renderToday();
+      createBubbles();
+      createSparkles();
+      bindEvents();
+    }
+
+    function bindEvents() {
+      analyzeButton.addEventListener("click", analyzeMemo);
+      calendarButton.addEventListener("click", downloadCalendarFile);
+
+      document
+        .querySelectorAll(".example-button")
+        .forEach((button) => {
+          button.addEventListener("click", () => {
+            memoInput.value = button.dataset.example || "";
+            memoInput.focus();
+            showToast("入力例をセットしました ✦");
+          });
+        });
+
+      [editTitle, editDate, editStart, editEnd].forEach((input) => {
+        input.addEventListener("input", applyManualEdits);
+      });
+
+      memoInput.addEventListener("keydown", (event) => {
+        if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+          analyzeMemo();
+        }
+      });
+    }
+
+    /* ========================================
+       日付表示
+    ======================================== */
+
+    function renderToday() {
+      const today = new Date();
+
+      todayText.textContent = new Intl.DateTimeFormat("ja-JP", {
+        month: "short",
+        day: "numeric",
+        weekday: "short"
+      }).format(today);
+    }
+
+    /* ========================================
+       背景演出
+    ======================================== */
+
+    function createBubbles() {
+      const container = document.getElementById("bubbles");
+
+      for (let i = 0; i < 18; i += 1) {
+        const bubble = document.createElement("span");
+        bubble.className = "bubble";
+
+        bubble.style.setProperty(
+          "--size",
+          `${randomNumber(14, 62)}px`
+        );
+        bubble.style.setProperty(
+          "--left",
+          `${randomNumber(1, 98)}%`
+        );
+        bubble.style.setProperty(
+          "--duration",
+          `${randomNumber(11, 25)}s`
+        );
+        bubble.style.setProperty(
+          "--delay",
+          `${randomNumber(-22, 0)}s`
+        );
+
+        container.appendChild(bubble);
+      }
+    }
+
+    function createSparkles() {
+      const container = document.getElementById("sparkles");
+
+      for (let i = 0; i < 28; i += 1) {
+        const sparkle = document.createElement("span");
+        sparkle.className = "sparkle";
+
+        sparkle.style.setProperty("--x", `${randomNumber(1, 99)}%`);
+        sparkle.style.setProperty("--y", `${randomNumber(1, 99)}%`);
+        sparkle.style.setProperty(
+          "--spark-size",
+          `${randomNumber(7, 20)}px`
+        );
+        sparkle.style.setProperty(
+          "--speed",
+          `${randomNumber(2, 5)}s`
+        );
+        sparkle.style.setProperty(
+          "--delay",
+          `${randomNumber(-5, 0)}s`
+        );
+
+        container.appendChild(sparkle);
+      }
+    }
+
+    function randomNumber(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    /* ========================================
+       メモ解析
+    ======================================== */
+
+    function analyzeMemo() {
+      const memo = normalizeText(memoInput.value);
+
+      if (!memo) {
+        showToast("予定のメモを入力してください");
+        memoInput.focus();
+        return;
+      }
+
+      try {
+        const parsedDate = extractDate(memo);
+
+        if (!parsedDate) {
+          showToast("日付を見つけられませんでした");
+          return;
+        }
+
+        const timeResult = extractTime(memo);
+        const title = createEventTitle(memo);
+        const description = createDescription(memo);
+
+        const start = new Date(parsedDate);
+        start.setHours(
+          timeResult.startHour,
+          timeResult.startMinute,
+          0,
+          0
+        );
+
+        const end = new Date(parsedDate);
+        end.setHours(
+          timeResult.endHour,
+          timeResult.endMinute,
+          0,
+          0
+        );
+
+        /*
+          終了時刻が開始時刻より前の場合は、
+          日付をまたぐ予定として翌日に設定します。
+        */
+        if (end <= start) {
+          end.setDate(end.getDate() + 1);
+        }
+
+        currentEvent = {
+          title,
+          description,
+          start,
+          end,
+          isLongDay: timeResult.isLongDay
+        };
+
+        fillEditFields();
+        renderPreview();
+        showToast("予定を作成しました ✦");
+      } catch (error) {
+        console.error(error);
+        showToast("予定を解析できませんでした");
+      }
+    }
+
+    function normalizeText(value) {
+      return String(value || "")
+        .replace(/\r\n/g, "\n")
+        .replace(/\r/g, "\n")
+        .replace(/[ \t]+/g, " ")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
+    }
+
+    /* ========================================
+       日付解析
+    ======================================== */
+
+    function extractDate(text) {
+      const now = new Date();
+      const today = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate()
+      );
+
+      if (/再来週/.test(text)) {
+        const date = new Date(today);
+        date.setDate(date.getDate() + 14);
+        return date;
+      }
+
+      if (/来週/.test(text)) {
+        const weekdayDate = extractWeekday(text, today, 7);
+
+        if (weekdayDate) {
+          return weekdayDate;
+        }
+
+        const date = new Date(today);
+        date.setDate(date.getDate() + 7);
+        return date;
+      }
+
+      if (/明後日|あさって/.test(text)) {
+        const date = new Date(today);
+        date.setDate(date.getDate() + 2);
+        return date;
+      }
+
+      if (/明日|あした/.test(text)) {
+        const date = new Date(today);
+        date.setDate(date.getDate() + 1);
+        return date;
+      }
+
+      if (/今日|きょう/.test(text)) {
+        return today;
+      }
+
+      /*
+        例：
+        2026年8月10日
+        2026/8/10
+        2026-08-10
+        26/8/10
+      */
+      const fullDateMatch = text.match(
+        /(?:^|[^\d])(\d{2,4})\s*(?:年|[./-])\s*(\d{1,2})\s*(?:月|[./-])\s*(\d{1,2})\s*日?/
+      );
+
+      if (fullDateMatch) {
+        let year = Number(fullDateMatch[1]);
+        const month = Number(fullDateMatch[2]);
+        const day = Number(fullDateMatch[3]);
+
+        if (year < 100) {
+          year += 2000;
+        }
+
+        return createValidatedDate(year, month, day);
+      }
+
+      /*
+        例：
+        8月10日
+        8/10
+        8-10
+      */
+      const shortDateMatch = text.match(
+        /(?:^|[^\d])(\d{1,2})\s*(?:月|[./-])\s*(\d{1,2})\s*日?/
+      );
+
+      if (shortDateMatch) {
+        const month = Number(shortDateMatch[1]);
+        const day = Number(shortDateMatch[2]);
+        let year = today.getFullYear();
+
+        let date = createValidatedDate(year, month, day);
+
+        if (!date) {
+          return null;
+        }
+
+        /*
+          年の記載がなく、指定日が大幅に過去なら翌年と判断。
+          例：12月に「1月10日」と入力した場合など。
+        */
+        const difference =
+          date.getTime() - today.getTime();
+
+        const pastTolerance =
+          -1000 * 60 * 60 * 24 * 90;
+
+        if (difference < pastTolerance) {
+          year += 1;
+          date = createValidatedDate(year, month, day);
+        }
+
+        return date;
+      }
+
+      const weekdayDate = extractWeekday(text, today, 0);
+
+      if (weekdayDate) {
+        return weekdayDate;
+      }
+
+      return null;
+    }
+
+    function extractWeekday(text, baseDate, additionalDays) {
+      const weekdayMap = {
+        日: 0,
+        月: 1,
+        火: 2,
+        水: 3,
+        木: 4,
+        金: 5,
+        土: 6
+      };
+
+      const match = text.match(
+        /(?:次の|今週の)?\s*([日月火水木金土])曜(?:日)?/
+      );
+
+      if (!match) {
+        return null;
+      }
+
+      const targetWeekday = weekdayMap[match[1]];
+      const date = new Date(baseDate);
+      date.setDate(date.getDate() + additionalDays);
+
+      let difference =
+        (targetWeekday - date.getDay() + 7) % 7;
+
+      /*
+        「次の月曜日」なら、今日が月曜日でも7日後にする。
+      */
+      if (/次の/.test(match[0]) && difference === 0) {
+        difference = 7;
+      }
+
+      date.setDate(date.getDate() + difference);
+      return date;
+    }
+
+    function createValidatedDate(year, month, day) {
+      if (
+        !Number.isInteger(year) ||
+        !Number.isInteger(month) ||
+        !Number.isInteger(day)
+      ) {
+        return null;
+      }
+
+      if (month < 1 || month > 12 || day < 1 || day > 31) {
+        return null;
+      }
+
+      const date = new Date(year, month - 1, day);
+
+      if (
+        date.getFullYear() !== year ||
+        date.getMonth() !== month - 1 ||
+        date.getDate() !== day
+      ) {
+        return null;
+      }
+
+      return date;
+    }
+
+    /* ========================================
+       時間解析
+    ======================================== */
+
+    function extractTime(text) {
+      /*
+        ユーザー指定：
+        「終日」の場合は9:00～22:00
+      */
+      if (/終日|一日中|1日中/.test(text)) {
+        return {
+          startHour: 9,
+          startMinute: 0,
+          endHour: 22,
+          endMinute: 0,
+          isLongDay: true
+        };
+      }
+
+      /*
+        例：
+        14:30～16:00
+        14時30分から16時
+        14時〜16時30分
+      */
+      const rangePatterns = [
+        /(\d{1,2})[:時](\d{1,2})?\s*分?\s*(?:から|～|〜|~|-)\s*(\d{1,2})[:時](\d{1,2})?\s*分?/,
+        /(\d{1,2})\s*時\s*(?:から|～|〜|~|-)\s*(\d{1,2})\s*時/
+      ];
+
+      for (const pattern of rangePatterns) {
+        const match = text.match(pattern);
+
+        if (!match) {
+          continue;
+        }
+
+        if (match.length >= 5) {
+          const startHour = clampHour(Number(match[1]));
+          const startMinute = clampMinute(
+            Number(match[2] || 0)
+          );
+          const endHour = clampHour(Number(match[3]));
+          const endMinute = clampMinute(
+            Number(match[4] || 0)
+          );
+
+          return {
+            startHour,
+            startMinute,
+            endHour,
+            endMinute,
+            isLongDay: false
+          };
+        }
+
+        const startHour = clampHour(Number(match[1]));
+        const endHour = clampHour(Number(match[2]));
+
+        return {
+          startHour,
+          startMinute: 0,
+          endHour,
+          endMinute: 0,
+          isLongDay: false
+        };
+      }
+
+      /*
+        「午後3時」「午前10時30分」
+      */
+      const japanesePeriodMatch = text.match(
+        /(午前|午後)\s*(\d{1,2})\s*(?:時|[:：])\s*(\d{1,2})?\s*分?/
+      );
+
+      if (japanesePeriodMatch) {
+        const period = japanesePeriodMatch[1];
+        let hour = Number(japanesePeriodMatch[2]);
+        const minute = Number(japanesePeriodMatch[3] || 0);
+
+        if (period === "午後" && hour < 12) {
+          hour += 12;
+        }
+
+        if (period === "午前" && hour === 12) {
+          hour = 0;
+        }
+
+        return oneHourSchedule(hour, minute);
+      }
+
+      /*
+        「15:30」「15時30分」「15時」
+      */
+      const singleTimeMatch = text.match(
+        /(?:^|[^\d])(\d{1,2})\s*(?:[:：時])\s*(\d{1,2})?\s*分?/
+      );
+
+      if (singleTimeMatch) {
+        const hour = clampHour(Number(singleTimeMatch[1]));
+        const minute = clampMinute(
+          Number(singleTimeMatch[2] || 0)
+        );
+
+        return oneHourSchedule(hour, minute);
+      }
+
+      /*
+        時間なしの場合は9:00～10:00
+      */
+      return {
+        startHour: 9,
+        startMinute: 0,
+        endHour: 10,
+        endMinute: 0,
+        isLongDay: false
+      };
+    }
+
+    function oneHourSchedule(hour, minute) {
+      const start = new Date(2000, 0, 1, hour, minute);
+      const end = new Date(start.getTime() + 60 * 60 * 1000);
+
+      return {
+        startHour: start.getHours(),
+        startMinute: start.getMinutes(),
+        endHour: end.getHours(),
+        endMinute: end.getMinutes(),
+        isLongDay: false
+      };
+    }
+
+    function clampHour(value) {
+      return Math.min(23, Math.max(0, value));
+    }
+
+    function clampMinute(value) {
+      return Math.min(59, Math.max(0, value));
+    }
+
+    /* ========================================
+       件名・内容生成
+    ======================================== */
+
+    function createEventTitle(text) {
+      const lines = text
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean);
+
+      let candidate = lines[0] || "新しい予定";
+
+      candidate = removeDateAndTime(candidate);
+
+      /*
+        文頭に残りやすい助詞や記号を削除
+      */
+      candidate = candidate
+        .replace(/^[、。,.\s:：・\-～〜]+/, "")
+        .replace(
+          /^(に|は|で|から|まで|予定|予約)\s*/,
+          ""
+        )
+        .trim();
+
+      /*
+        句点や詳細説明の前までを件名候補にする
+      */
+      candidate = candidate
+        .split(/[。！!？?\n]/)[0]
+        .trim();
+
+      /*
+        「〜する」「〜へ行く」などを自然な件名に寄せる
+      */
+      candidate = candidate
+        .replace(/^予定[:：]\s*/, "")
+        .replace(/^件名[:：]\s*/, "")
+        .replace(/する予定$/, "")
+        .trim();
+
+      if (!candidate) {
+        const keywordTitle = detectKeywordTitle(text);
+
+        if (keywordTitle) {
+          return keywordTitle;
+        }
+
+        return "新しい予定";
+      }
+
+      if (candidate.length > 34) {
+        candidate = `${candidate.slice(0, 34)}…`;
+      }
+
+      return candidate;
+    }
+
+    function detectKeywordTitle(text) {
+      const titleRules = [
+        [/美容院|ヘアサロン|カット|カラー/, "美容院"],
+        [/病院|クリニック|診察|通院/, "病院の予定"],
+        [/歯医者|歯科/, "歯医者"],
+        [/会議|ミーティング|打ち合わせ/, "ミーティング"],
+        [/面接/, "面接"],
+        [/誕生日/, "誕生日"],
+        [/旅行|ホテル|旅館/, "旅行"],
+        [/ライブ|コンサート/, "ライブ"],
+        [/食事|ディナー|ランチ/, "食事の予定"],
+        [/買い物/, "買い物"],
+        [/締切|提出/, "提出期限"]
+      ];
+
+      for (const [pattern, title] of titleRules) {
+        if (pattern.test(text)) {
+          return title;
+        }
+      }
+
+      return "";
+    }
+
+    function createDescription(text) {
+      const cleaned = text
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
+
+      return cleaned || "メモから作成した予定です。";
+    }
+
+    function removeDateAndTime(text) {
+      return text
+        .replace(
+          /\d{2,4}\s*(?:年|[./-])\s*\d{1,2}\s*(?:月|[./-])\s*\d{1,2}\s*日?/g,
+          ""
+        )
+        .replace(
+          /\d{1,2}\s*(?:月|[./-])\s*\d{1,2}\s*日?/g,
+          ""
+        )
+        .replace(
+          /(?:今日|きょう|明日|あした|明後日|あさって|来週|再来週)/g,
+          ""
+        )
+        .replace(
+          /(?:次の|今週の)?\s*[日月火水木金土]曜(?:日)?/g,
+          ""
+        )
+        .replace(
+          /(午前|午後)\s*\d{1,2}\s*(?:時|[:：])\s*\d{0,2}\s*分?/g,
+          ""
+        )
+        .replace(
+          /\d{1,2}\s*(?:[:：時])\s*\d{0,2}\s*分?\s*(?:から|～|〜|~|-)\s*\d{1,2}\s*(?:[:：時])\s*\d{0,2}\s*分?/g,
+          ""
+        )
+        .replace(
+          /\d{1,2}\s*(?:[:：時])\s*\d{0,2}\s*分?/g,
+          ""
+        )
+        .replace(/終日|一日中|1日中/g, "")
+        .replace(/\s{2,}/g, " ")
+        .trim();
+    }
+
+    /* ========================================
+       プレビュー表示
+    ======================================== */
+
+    function renderPreview() {
+      if (!currentEvent) {
+        return;
+      }
+
+      emptyState.hidden = true;
+      resultState.hidden = false;
+
+      previewTitle.textContent = currentEvent.title;
+      previewDescription.textContent =
+        currentEvent.description;
+
+      previewDate.textContent = formatDisplayDate(
+        currentEvent.start,
+        currentEvent.end
+      );
+    }
+
+    function formatDisplayDate(start, end) {
+      const dateText = new Intl.DateTimeFormat("ja-JP", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        weekday: "short"
+      }).format(start);
+
+      const startTime = formatTime(start);
+      const endTime = formatTime(end);
+
+      return `${dateText}　${startTime} ～ ${endTime}`;
+    }
+
+    function formatTime(date) {
+      return [
+        String(date.getHours()).padStart(2, "0"),
+        String(date.getMinutes()).padStart(2, "0")
+      ].join(":");
+    }
+
+    function fillEditFields() {
+      if (!currentEvent) {
+        return;
+      }
+
+      editTitle.value = currentEvent.title;
+      editDate.value = formatDateInput(currentEvent.start);
+      editStart.value = formatTime(currentEvent.start);
+      editEnd.value = formatTime(currentEvent.end);
+    }
+
+    function formatDateInput(date) {
+      return [
+        date.getFullYear(),
+        String(date.getMonth() + 1).padStart(2, "0"),
+        String(date.getDate()).padStart(2, "0")
+      ].join("-");
+    }
+
+    function applyManualEdits() {
+      if (!currentEvent || !editDate.value) {
+        return;
+      }
+
+      const [year, month, day] =
+        editDate.value.split("-").map(Number);
+
+      const [startHour, startMinute] =
+        (editStart.value || "09:00")
+          .split(":")
+          .map(Number);
+
+      const [endHour, endMinute] =
+        (editEnd.value || "10:00")
+          .split(":")
+          .map(Number);
+
+      const start = new Date(
+        year,
+        month - 1,
+        day,
+        startHour,
+        startMinute,
+        0,
+        0
+      );
+
+      const end = new Date(
+        year,
+        month - 1,
+        day,
+        endHour,
+        endMinute,
+        0,
+        0
+      );
+
+      if (end <= start) {
+        end.setDate(end.getDate() + 1);
+      }
+
+      currentEvent.title =
+        editTitle.value.trim() || "新しい予定";
+      currentEvent.start = start;
+      currentEvent.end = end;
+
+      renderPreview();
+    }
+
+    /* ========================================
+       iCalendarファイル生成
+    ======================================== */
+
+    function downloadCalendarFile() {
+      if (!currentEvent) {
+        showToast("先に予定を作成してください");
+        return;
+      }
+
+      applyManualEdits();
+
+      try {
+        const icsContent = createICS(currentEvent);
+
+        const blob = new Blob(
+          [icsContent],
+          {
+            type: "text/calendar;charset=utf-8"
+          }
+        );
+
+        const objectURL = URL.createObjectURL(blob);
+        const fileName =
+          sanitizeFileName(currentEvent.title) + ".ics";
+
+        const anchor = document.createElement("a");
+        anchor.href = objectURL;
+        anchor.download = fileName;
+        anchor.style.display = "none";
+
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+
+        /*
+          iOS Safariではダウンロード属性の挙動が異なる場合があるため、
+          少し時間を置いてURLを解放します。
+        */
+        window.setTimeout(() => {
+          URL.revokeObjectURL(objectURL);
+        }, 5000);
+
+        showToast(
+          "カレンダーファイルを作成しました。表示された予定を追加してください ✦"
+        );
+      } catch (error) {
+        console.error(error);
+        showToast("カレンダーファイルを作成できませんでした");
+      }
+    }
+
+    function createICS(eventData) {
+      const uid =
+        `${Date.now()}-${Math.random()
+          .toString(36)
+          .slice(2)}@lumi-calendar.local`;
+
+      const createdAt = formatICSUTC(new Date());
+      const start = formatICSLocal(eventData.start);
+      const end = formatICSLocal(eventData.end);
+
+      const lines = [
+        "BEGIN:VCALENDAR",
+        "VERSION:2.0",
+        "PRODID:-//Lumi Calendar//Memo Calendar//JA",
+        "CALSCALE:GREGORIAN",
+        "METHOD:PUBLISH",
+        "BEGIN:VTIMEZONE",
+        "TZID:Asia/Tokyo",
+        "X-LIC-LOCATION:Asia/Tokyo",
+        "BEGIN:STANDARD",
+        "TZOFFSETFROM:+0900",
+        "TZOFFSETTO:+0900",
+        "TZNAME:JST",
+        "DTSTART:19700101T000000",
+        "END:STANDARD",
+        "END:VTIMEZONE",
+        "BEGIN:VEVENT",
+        `UID:${escapeICS(uid)}`,
+        `DTSTAMP:${createdAt}`,
+        `DTSTART;TZID=Asia/Tokyo:${start}`,
+        `DTEND;TZID=Asia/Tokyo:${end}`,
+        `SUMMARY:${escapeICS(eventData.title)}`,
+        `DESCRIPTION:${escapeICS(eventData.description)}`,
+        "STATUS:CONFIRMED",
+        "TRANSP:OPAQUE",
+        "BEGIN:VALARM",
+        "TRIGGER:-PT30M",
+        "ACTION:DISPLAY",
+        `DESCRIPTION:${escapeICS(eventData.title)}`,
+        "END:VALARM",
+        "END:VEVENT",
+        "END:VCALENDAR"
+      ];
+
+      /*
+        iCalendarはCRLF改行を使用
+      */
+      return lines.join("\r\n");
+    }
+
+    function formatICSLocal(date) {
+      return [
+        date.getFullYear(),
+        String(date.getMonth() + 1).padStart(2, "0"),
+        String(date.getDate()).padStart(2, "0"),
+        "T",
+        String(date.getHours()).padStart(2, "0"),
+        String(date.getMinutes()).padStart(2, "0"),
+        String(date.getSeconds()).padStart(2, "0")
+      ].join("");
+    }
+
+    function formatICSUTC(date) {
+      return [
+        date.getUTCFullYear(),
+        String(date.getUTCMonth() + 1).padStart(2, "0"),
+        String(date.getUTCDate()).padStart(2, "0"),
+        "T",
+        String(date.getUTCHours()).padStart(2, "0"),
+        String(date.getUTCMinutes()).padStart(2, "0"),
+        String(date.getUTCSeconds()).padStart(2, "0"),
+        "Z"
+      ].join("");
+    }
+
+    function escapeICS(value) {
+      return String(value || "")
+        .replace(/\\/g, "\\\\")
+        .replace(/\r?\n/g, "\\n")
+        .replace(/;/g, "\\;")
+        .replace(/,/g, "\\,");
+    }
+
+    function sanitizeFileName(value) {
+      const safeName = String(value || "calendar-event")
+        .replace(/[\\/:*?"<>|]/g, "")
+        .replace(/\s+/g, "_")
+        .slice(0, 50);
+
+      return safeName || "calendar-event";
+    }
+
+    /* ========================================
+       トースト
+    ======================================== */
+
+    function showToast(message) {
+      window.clearTimeout(toastTimer);
+
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      toastTimer = window.setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3200);
+    }
+  </script>
+</body>
+</html>
