@@ -71,7 +71,7 @@
             z-index: 1;
         }
 
-        /* 右上枠外のうさぎちゃん (80%サイズ) */
+        /* 右上枠外のうさぎちゃん (80%サイズ & 背景透過シャドウ設定) */
         .bunny-badge {
             position: absolute;
             top: -55px;
@@ -79,7 +79,7 @@
             width: 110px;
             height: auto;
             z-index: 10;
-            filter: drop-shadow(0 8px 12px rgba(196, 181, 253, 0.6));
+            filter: drop-shadow(0 8px 16px rgba(236, 72, 153, 0.35));
             animation: bunnyHop 3s ease-in-out infinite;
             pointer-events: none;
         }
@@ -214,8 +214,8 @@
     <div class="cloud-bg cloud-2"></div>
 
     <div class="container">
-        <!-- 右上枠外のうさぎちゃんイラスト -->
-        <img src="bunny1.png" alt="うさぎちゃん" class="bunny-badge">
+        <!-- 右上枠外のうさぎちゃんイラスト（背景透過） -->
+        <img src="bunny.png" alt="うさぎちゃん" class="bunny-badge">
 
         <!-- ヘッダー -->
         <div class="header">
@@ -283,7 +283,7 @@
             const timeMatch = memo.match(/(\d{1,2})[:時](\d{2})?|(\d{1,2})時/);
 
             if (isAllDay) {
-                // 【終日】指定がある場合：9:00 〜 22:00
+                // 【終日】指定がある場合：09:00 〜 22:00
                 startDate.setHours(9, 0, 0, 0);
                 endDate.setHours(22, 0, 0, 0);
             } else if (timeMatch) {
@@ -298,7 +298,7 @@
                 startDate.setHours(hours, minutes, 0, 0);
                 endDate.setTime(startDate.getTime() + (60 * 60 * 1000)); // 1時間後
             } else {
-                // 【記載がない場合】：9:00 〜 10:00
+                // 【時間の記載がない場合】：09:00 〜 10:00
                 startDate.setHours(9, 0, 0, 0);
                 endDate.setHours(10, 0, 0, 0);
             }
