@@ -3,34 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ふわふわメモカレンダー</title>
-  <!-- Google Fonts -->
+  <title>ふわっとメモカレンダー</title>
+  <!-- Google Fonts: 綺麗で可読性の高いフォント -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
   <!-- FontAwesome アイコン -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
     :root {
-      --bg-gradient: linear-gradient(180deg, #e0f2fe 0%, #f0f9ff 50%, #ffffff 100%);
-      --card-bg: rgba(255, 255, 255, 0.88);
-      --primary-blue: #38bdf8;
-      --deep-blue: #0284c7;
-      --soft-blue: #e0f2fe;
-      --text-main: #334155;
-      --text-muted: #64748b;
-      --glow-blue: rgba(56, 189, 248, 0.4);
+      /* プロ仕様のクリア＆エアリーパレット */
+      --bg-gradient: radial-gradient(100% 100% at 50% 0%, #e0f2fe 0%, #f0f9ff 50%, #ffffff 100%);
+      --card-bg: rgba(255, 255, 255, 0.75);
+      --card-border: rgba(255, 255, 255, 0.9);
+      --primary: #38bdf8;
+      --primary-dark: #0284c7;
+      --accent-glow: rgba(56, 189, 248, 0.35);
+      --text-main: #1e293b;
+      --text-sub: #64748b;
+      --input-bg: rgba(248, 250, 252, 0.8);
     }
 
     * {
       box-sizing: border-box;
       font-family: 'M PLUS Rounded 1c', -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
     }
 
     body {
       margin: 0;
-      padding: 16px;
+      padding: 24px 16px;
       background: var(--bg-gradient);
       min-height: 100vh;
       display: flex;
@@ -42,300 +45,293 @@
       position: relative;
     }
 
-    /* 背景のキラキラ魔法粒子 */
-    .magic-sparkle {
+    /* 背景：プロ感のある静かで繊細なキラキラ背景 */
+    .sparkle-bg {
       position: absolute;
-      color: #7dd3fc;
-      opacity: 0.8;
-      animation: magicFloat 5s infinite ease-in-out;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(186, 230, 253, 0.6) 0%, rgba(255, 255, 255, 0) 70%);
       pointer-events: none;
       z-index: 0;
-      filter: drop-shadow(0 0 6px #bae6fd);
+      animation: floatGlow 8s infinite ease-in-out alternate;
+    }
+    .sparkle-1 { width: 300px; height: 300px; top: -50px; left: -50px; }
+    .sparkle-2 { width: 400px; height: 400px; bottom: -100px; right: -80px; animation-delay: -4s; }
+
+    @keyframes floatGlow {
+      0% { transform: scale(1) translateY(0); opacity: 0.5; }
+      100% { transform: scale(1.15) translateY(-20px); opacity: 0.8; }
     }
 
-    @keyframes magicFloat {
-      0%, 100% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.4; }
-      50% { transform: translateY(-20px) scale(1.4) rotate(25deg); opacity: 1; }
+    /* 繊細な光のモチーフアイコン */
+    .magic-star {
+      position: absolute;
+      color: #7dd3fc;
+      font-size: 0.9rem;
+      pointer-events: none;
+      z-index: 0;
+      animation: pulseStar 3s infinite ease-in-out alternate;
+      filter: drop-shadow(0 0 6px rgba(125, 211, 252, 0.8));
+    }
+    @keyframes pulseStar {
+      0% { opacity: 0.3; transform: scale(0.8) rotate(0deg); }
+      100% { opacity: 1; transform: scale(1.2) rotate(15deg); }
     }
 
-    /* ヘッダー */
+    /* ヘッダーデザイン */
     .header {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
       z-index: 1;
-      animation: floatHeader 4s infinite ease-in-out;
     }
 
-    @keyframes floatHeader {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-8px); }
-    }
-
-    .header h1 {
-      font-size: clamp(1.4rem, 4vw, 1.9rem);
-      color: var(--deep-blue);
-      margin: 0;
+    .header-badge {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: rgba(255, 255, 255, 0.95);
-      padding: 12px 28px;
-      border-radius: 50px;
-      border: 2px solid #bae6fd;
-      box-shadow: 0 8px 30px rgba(56, 189, 248, 0.25), inset 0 0 15px rgba(224, 242, 254, 0.8);
+      gap: 6px;
+      padding: 6px 16px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(186, 230, 253, 0.8);
+      border-radius: 100px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.1);
+      margin-bottom: 12px;
       backdrop-filter: blur(8px);
     }
 
-    .header p {
-      font-size: clamp(0.8rem, 2.5vw, 0.95rem);
-      color: #0284c7;
-      margin-top: 12px;
-      margin-bottom: 0;
+    .header h1 {
+      font-size: clamp(1.5rem, 4.5vw, 1.85rem);
+      color: #0c4a6e;
+      margin: 0;
       font-weight: 800;
-      letter-spacing: 0.08em;
-      text-shadow: 0 0 10px #ffffff;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
     }
 
-    /* メインコンテナ */
+    /* メインコンテナ（グラスモーフィズム） */
     .container {
       width: 100%;
-      max-width: 520px;
+      max-width: 480px;
       background: var(--card-bg);
-      border-radius: 36px;
-      padding: clamp(24px, 5vw, 36px);
-      box-shadow: 0 20px 50px rgba(56, 189, 248, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.9);
-      border: 4px solid #ffffff;
+      border-radius: 32px;
+      padding: clamp(24px, 5vw, 32px);
+      box-shadow: 
+        0 20px 40px -15px rgba(14, 165, 233, 0.12),
+        0 0 0 1px var(--card-border) inset;
+      backdrop-filter: blur(16px);
       position: relative;
       z-index: 1;
-      backdrop-filter: blur(12px);
     }
 
-    /* 【枠外右上】文字なし・魔法のお星さまモチーフ */
-    .magic-icon-badge {
+    /* 【右上モチーフ】文字なし・洗練されたジュエル/魔法アクセント */
+    .magic-jewel-badge {
       position: absolute;
-      top: -28px;
-      right: 10px;
-      width: 60px;
-      height: 60px;
+      top: -20px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
       background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
-      border-radius: 50%;
-      border: 3px solid #7dd3fc;
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.5), inset 0 0 10px #ffffff;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 
+        0 8px 20px rgba(56, 189, 248, 0.25),
+        inset 0 0 10px rgba(255, 255, 255, 0.8);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
-      color: #38bdf8;
-      animation: magicWandBounce 3.5s infinite ease-in-out;
-      pointer-events: none;
-      z-index: 10;
+      font-size: 1.15rem;
+      color: var(--primary);
+      transform: rotate(6deg);
+      transition: transform 0.3s ease;
+      animation: floatBadge 4s infinite ease-in-out alternate;
     }
 
-    @keyframes magicWandBounce {
-      0%, 100% { transform: translateY(0) rotate(-10deg) scale(1); }
-      50% { transform: translateY(-10px) rotate(15deg) scale(1.1); }
+    @keyframes floatBadge {
+      0% { transform: rotate(6deg) translateY(0); }
+      100% { transform: rotate(-4deg) translateY(-6px); }
     }
 
     .input-group {
-      margin-bottom: 22px;
+      margin-bottom: 20px;
     }
 
     label {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 0.98rem;
-      font-weight: 800;
-      color: var(--deep-blue);
-      margin-bottom: 12px;
+      gap: 6px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #0369a1;
+      margin-bottom: 8px;
     }
 
     textarea {
       width: 100%;
-      height: 125px;
-      padding: 18px;
-      border: 2px solid #bae6fd;
-      border-radius: 24px;
-      font-size: 1rem;
+      height: 110px;
+      padding: 14px 16px;
+      border: 1.5px solid #e0f2fe;
+      border-radius: 20px;
+      font-size: 0.95rem;
       color: var(--text-main);
-      background-color: rgba(240, 249, 255, 0.7);
+      background-color: var(--input-bg);
       outline: none;
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
       resize: vertical;
-      font-weight: 700;
-      box-shadow: inset 0 2px 6px rgba(56, 189, 248, 0.08);
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    textarea::placeholder {
+      color: #94a3b8;
     }
 
     textarea:focus {
-      border-color: var(--primary-blue);
+      border-color: var(--primary);
       background-color: #ffffff;
-      box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.25), inset 0 2px 4px rgba(0,0,0,0.02);
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15);
     }
 
-    /* 魔法ボタン */
+    /* メインボタン */
     .btn {
       width: 100%;
-      padding: 16px;
+      padding: 14px;
       border: none;
-      border-radius: 26px;
-      font-size: 1.05rem;
-      font-weight: 800;
+      border-radius: 20px;
+      font-size: 0.98rem;
+      font-weight: 700;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      letter-spacing: 0.05em;
+      gap: 8px;
+      letter-spacing: 0.02em;
     }
 
     .btn-parse {
-      background: linear-gradient(135deg, #7dd3fc 0%, #0284c7 100%);
+      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
       color: #ffffff;
-      border: 2px solid #ffffff;
-      box-shadow: 0 8px 24px rgba(56, 189, 248, 0.4);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn-parse::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(60deg, transparent, rgba(255,255,255,0.4), transparent);
-      transform: rotate(30deg);
-      transition: 0.8s;
-    }
-
-    .btn-parse:hover::after {
-      left: 100%;
+      box-shadow: 0 8px 20px rgba(2, 132, 199, 0.25);
     }
 
     .btn-parse:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 12px 30px rgba(56, 189, 248, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(2, 132, 199, 0.35);
+      filter: brightness(1.03);
     }
 
     .btn-parse:active {
-      transform: translateY(1px) scale(0.98);
+      transform: translateY(0);
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
     }
 
-    /* ローディング状態 */
-    .btn-loading {
-      opacity: 0.8;
-      pointer-events: none;
-    }
-
-    /* 結果カード */
+    /* 結果プレビューカード */
     .preview-card {
-      margin-top: 26px;
-      background: rgba(255, 255, 255, 0.95);
-      border: 2px solid #bae6fd;
-      border-radius: 28px;
-      padding: 22px;
+      margin-top: 24px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #e0f2fe;
+      border-radius: 24px;
+      padding: 20px;
       display: none;
-      box-shadow: 0 12px 32px rgba(186, 230, 253, 0.5);
-      animation: magicPop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 25px rgba(186, 230, 253, 0.3);
+      animation: cardSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    @keyframes magicPop {
-      0% { opacity: 0; transform: scale(0.85) translateY(20px); }
-      100% { opacity: 1; transform: scale(1) translateY(0); }
+    @keyframes cardSlideUp {
+      0% { opacity: 0; transform: translateY(16px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
 
     .preview-card h2 {
       margin-top: 0;
-      font-size: 1.15rem;
-      color: var(--deep-blue);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 16px;
-      border-bottom: 2px stroke #e0f2fe;
-      padding-bottom: 8px;
-    }
-
-    .field {
-      margin-bottom: 12px;
-      background: var(--soft-blue);
-      padding: 14px 18px;
-      border-radius: 20px;
-      border: 1px solid #ffffff;
-    }
-
-    .field-label {
-      font-size: 0.75rem;
-      color: #0284c7;
-      font-weight: 800;
+      font-size: 1.02rem;
+      color: #0369a1;
       display: flex;
       align-items: center;
       gap: 6px;
+      margin-bottom: 14px;
+      font-weight: 800;
+    }
+
+    .field {
+      margin-bottom: 10px;
+      background: #f8fafc;
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 1px solid #f1f5f9;
+    }
+
+    .field-label {
+      font-size: 0.72rem;
+      color: #0284c7;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .field-value {
-      font-size: 1.02rem;
+      font-size: 0.95rem;
       color: var(--text-main);
-      font-weight: 800;
+      font-weight: 700;
       word-break: break-all;
-      margin-top: 4px;
+      margin-top: 2px;
     }
 
     .calendar-actions {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin-top: 20px;
+      gap: 10px;
+      margin-top: 18px;
     }
 
     .btn-apple {
-      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+      background: #0284c7;
       color: #ffffff;
-      box-shadow: 0 6px 18px rgba(2, 132, 199, 0.3);
     }
 
     .btn-timetree {
-      background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+      background: #10b981;
       color: #ffffff;
-      box-shadow: 0 6px 18px rgba(5, 150, 105, 0.3);
     }
 
     .btn-apple:hover, .btn-timetree:hover {
-      transform: translateY(-2px);
+      transform: translateY(-1px);
       filter: brightness(1.05);
     }
 
     .tip-box {
-      margin-top: 16px;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      background: rgba(240, 249, 255, 0.6);
-      padding: 12px 16px;
-      border-radius: 18px;
-      line-height: 1.6;
+      margin-top: 14px;
+      font-size: 0.78rem;
+      color: var(--text-sub);
+      background: rgba(240, 249, 255, 0.5);
+      padding: 10px 12px;
+      border-radius: 12px;
+      line-height: 1.5;
       border: 1px solid #e0f2fe;
-      font-weight: 700;
     }
 
     /* トースト通知 */
     .toast {
       position: fixed;
-      bottom: 28px;
+      bottom: 24px;
       left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+      transform: translateX(-50%) translateY(80px);
+      background: #0f172a;
       color: #fff;
-      padding: 12px 28px;
-      border-radius: 30px;
-      font-size: 0.95rem;
-      font-weight: 800;
-      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      padding: 10px 20px;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       z-index: 100;
-      box-shadow: 0 10px 30px rgba(56, 189, 248, 0.4);
-      border: 2px solid #ffffff;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .toast.show {
@@ -345,37 +341,41 @@
 </head>
 <body>
 
-<!-- キラキラ粒子アニメーション -->
-<i class="fa-solid fa-sparkles magic-sparkle" style="top: 8%; left: 10%; font-size: 1.4rem; animation-delay: 0s;"></i>
-<i class="fa-solid fa-star magic-sparkle" style="top: 20%; right: 12%; font-size: 1.1rem; animation-delay: 1.2s;"></i>
-<i class="fa-solid fa-wand-magic-sparkles magic-sparkle" style="top: 70%; left: 8%; font-size: 1.6rem; animation-delay: 2.5s;"></i>
-<i class="fa-solid fa-moon magic-sparkle" style="bottom: 12%; right: 10%; font-size: 1.3rem; animation-delay: 0.8s;"></i>
+<!-- 背景の柔らかな光と輝き -->
+<div class="sparkle-bg sparkle-1"></div>
+<div class="sparkle-bg sparkle-2"></div>
+
+<i class="fa-solid fa-sparkles magic-star" style="top: 12%; left: 15%; animation-delay: 0s;"></i>
+<i class="fa-solid fa-star magic-star" style="top: 22%; right: 15%; font-size: 0.7rem; animation-delay: 1.2s;"></i>
+<i class="fa-solid fa-sparkles magic-star" style="bottom: 15%; left: 12%; font-size: 1.1rem; animation-delay: 2.1s;"></i>
 
 <!-- ヘッダー -->
 <div class="header">
-  <h1><i class="fa-solid fa-wand-magic-sparkles" style="color: #38bdf8;"></i> ふわっとメモカレンダー</h1>
-  <p>✨ メモを入れると魔法でカレンダーに早変わり ✨</p>
+  <div class="header-badge">
+    <i class="fa-solid fa-wand-magic-sparkles"></i> AI Smart Calendar Sync
+  </div>
+  <h1>メモから、一瞬でカレンダーへ</h1>
 </div>
 
 <div class="container">
 
-  <!-- 枠外右上：文字なしの魔法お星さまバッジ -->
-  <div class="magic-icon-badge">
+  <!-- 右上アクセントモチーフ（文字なし・洗練デザイン） -->
+  <div class="magic-jewel-badge">
     <i class="fa-solid fa-wand-magic"></i>
   </div>
 
   <div class="input-group">
-    <label for="memoInput"><i class="fa-solid fa-sparkles"></i> 魔法のメモを入力してね</label>
+    <label for="memoInput"><i class="fa-solid fa-pen-nib"></i> 予定テキストを入力</label>
     <textarea id="memoInput" placeholder="例：&#10;明日 終日 ディズニー行く！&#10;または&#10;8月10日 15:00 カフェで打ち合わせ"></textarea>
   </div>
 
   <button class="btn btn-parse" id="parseBtn" onclick="parseMemo()">
-    <i class="fa-solid fa-wand-magic-sparkles"></i> 予定を魔法でまとめる！
+    <i class="fa-solid fa-wand-magic-sparkles"></i> 予定を魔法でまとめる
   </button>
 
   <!-- 結果カード -->
   <div id="previewCard" class="preview-card">
-    <h2><i class="fa-solid fa-hat-wizard" style="color: #38bdf8;"></i> まとめた魔法結果</h2>
+    <h2><i class="fa-solid fa-circle-check" style="color: #38bdf8;"></i> 解析完了</h2>
     
     <div class="field">
       <div class="field-label"><i class="fa-regular fa-clock"></i> 日時</div>
@@ -383,18 +383,18 @@
     </div>
 
     <div class="field">
-      <div class="field-label"><i class="fa-solid fa-star"></i> 件名</div>
+      <div class="field-label"><i class="fa-solid fa-bookmark"></i> 件名</div>
       <div class="field-value" id="resTitle">-</div>
     </div>
 
     <div class="field">
-      <div class="field-label"><i class="fa-solid fa-align-left"></i> 詳細内容</div>
+      <div class="field-label"><i class="fa-solid fa-bars-staggered"></i> 詳細メモ</div>
       <div class="field-value" id="resBody" style="white-space: pre-wrap; font-weight: 500;">-</div>
     </div>
 
     <div class="calendar-actions">
       <button class="btn btn-apple" onclick="downloadICS()">
-        <i class="fa-brands fa-apple"></i> iPhoneカレンダーに追加 (.ics)
+        <i class="fa-brands fa-apple"></i> Appleカレンダーに追加 (.ics)
       </button>
 
       <button class="btn btn-timetree" onclick="openTimeTree()">
@@ -403,76 +403,66 @@
     </div>
 
     <div class="tip-box">
-      <strong>💡 アプリ連携のアドバイス</strong><br>
-      • <strong>iPhoneカレンダー:</strong> ボタンを押すとそのまま予定追加画面が開きます。<br>
-      • <strong>TimeTree:</strong> 予定内容がコピーされた状態でアプリが開きます。新規作成画面に貼り付けて登録してね♪
+      <strong>💡 アプリ連携のポイント</strong><br>
+      • <strong>Appleカレンダー:</strong> ファイルが開いたら「すべて追加」をタップ。<br>
+      • <strong>TimeTree:</strong> クリップボードの内容を新規作成画面へ貼り付けてご利用ください。
     </div>
   </div>
 </div>
 
-<div id="toast" class="toast">✨ クリップボードにコピーしたよ！</div>
+<div id="toast" class="toast">✨ テキストをコピーしました</div>
 
 <script>
 let parsedEvent = null;
 
 // ===============================================
-// 🌐 API連携設定（必要に応じて接続先URLを設定）
+// 🌐 API連携設定（サーバー連携時に設定）
 // ===============================================
 const API_CONFIG = {
-  // 実装したAPIのエンドポイントURLを指定してください（例: '/api/parse-memo'）
-  endpoint: '', 
-  useAPI: false // API連携を有効化する場合は true に変更します
+  endpoint: '', // 例: '/api/parse-memo'
+  useAPI: false // 有効化する場合は true に設定
 };
 
 async function parseMemo() {
   const text = document.getElementById('memoInput').value.trim();
   if (!text) {
-    alert('メモを入力してくださいね！');
+    alert('メモを入力してください');
     return;
   }
 
   const btn = document.getElementById('parseBtn');
-  btn.classList.add('btn-loading');
-  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 魔法をかけています...';
+  btn.style.pointerEvents = 'none';
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> 解析中...';
 
   try {
     if (API_CONFIG.useAPI && API_CONFIG.endpoint) {
-      // 📡 API経由で解析する場合
       parsedEvent = await parseWithAPI(text);
     } else {
-      // 🪄 ローカルロジックで解析する場合（フォールバック）
       parsedEvent = parseLocalMemo(text);
     }
 
     updatePreviewUI(parsedEvent);
   } catch (error) {
     console.error('API Error:', error);
-    // API呼び出しでエラーが起きた場合はローカルロジックに切り替え
     parsedEvent = parseLocalMemo(text);
     updatePreviewUI(parsedEvent);
   } finally {
-    btn.classList.remove('btn-loading');
-    btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> 予定を魔法でまとめる！';
+    btn.style.pointerEvents = 'auto';
+    btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> 予定を魔法でまとめる';
   }
 }
 
-// API連携関数
+// API呼び出し関数
 async function parseWithAPI(text) {
   const response = await fetch(API_CONFIG.endpoint, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ memo: text })
   });
 
-  if (!response.ok) {
-    throw new Error('APIリクエストに失敗しました');
-  }
-
+  if (!response.ok) throw new Error('API Error');
   const data = await response.json();
-  
-  // APIレスポンス形式に合わせてDateオブジェクトを組み立て
+
   const startDate = new Date(data.year, data.month - 1, data.day, data.startHour, data.startMinute);
   const endDate = new Date(data.year, data.month - 1, data.day, data.endHour, data.endMinute);
 
@@ -492,7 +482,7 @@ async function parseWithAPI(text) {
   };
 }
 
-// ローカルでの解析処理（ルールベース）
+// ローカルでの高精度ルール解析
 function parseLocalMemo(text) {
   const now = new Date();
   let year = now.getFullYear();
@@ -532,18 +522,16 @@ function parseLocalMemo(text) {
     }
   }
 
-  // 時間の判定ルール
+  // 時間の判定ルール（記載あり ➔ 指定時間 / 終日 ➔ 9〜22時 / なし ➔ 9〜10時）
   const timeMatch = text.match(/(\d{1,2})[:：](\d{2})/) || text.match(/(\d{1,2})時((\d{1,2})分)?/);
 
   if (text.includes('終日')) {
-    // 1. 「終日」の記載がある場合 ➔ 9:00〜22:00
     startHour = 9;
     startMinute = 0;
     endHour = 22;
     endMinute = 0;
     isAllDay = true;
   } else if (timeMatch) {
-    // 2. 時間の記載がある場合 ➔ 指定時間〜1時間後
     startHour = parseInt(timeMatch[1]);
     if (timeMatch[2] && !timeMatch[2].includes('分')) {
       startMinute = parseInt(timeMatch[2]);
@@ -553,14 +541,13 @@ function parseLocalMemo(text) {
     endHour = startHour + 1;
     endMinute = startMinute;
   } else {
-    // 3. 時間の記載がない場合 ➔ デフォルト 9:00〜10:00
     startHour = 9;
     startMinute = 0;
     endHour = 10;
     endMinute = 0;
   }
 
-  // タイトル抽出
+  // タイトルの抽出
   const lines = text.split('\n').map(l => l.trim()).filter(l => l !== '');
   let titleText = lines[0] || '新規予定';
   titleText = titleText
@@ -585,7 +572,6 @@ function parseLocalMemo(text) {
   };
 }
 
-// UI更新処理
 function updatePreviewUI(event) {
   const pad = n => String(n).padStart(2, '0');
   const timeDisplay = event.isAllDay 
@@ -609,7 +595,7 @@ function downloadICS() {
   const icsData = 
 `BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//FuwaFuwa Magic Memo App//JA
+PRODID:-//Smart Memo Calendar//JA
 BEGIN:VEVENT
 SUMMARY:${parsedEvent.title}
 DESCRIPTION:${parsedEvent.description.replace(/\n/g, '\\n')}
@@ -634,7 +620,7 @@ function openTimeTree() {
   const copyText = `【${parsedEvent.title}】\n日時: ${parsedEvent.year}/${parsedEvent.month}/${parsedEvent.day} ${pad(parsedEvent.startHour)}:${pad(parsedEvent.startMinute)}～${pad(parsedEvent.endHour)}:${pad(parsedEvent.endMinute)}\n\nメモ:\n${parsedEvent.description}`;
 
   navigator.clipboard.writeText(copyText).then(() => {
-    showToast('✨ 魔法でコピーしたよ！TimeTreeを開きます♪');
+    showToast('✨ コピーしました！TimeTreeを開きます');
     setTimeout(() => {
       window.location.href = 'timetree://';
       setTimeout(() => {
@@ -642,7 +628,7 @@ function openTimeTree() {
       }, 1500);
     }, 800);
   }).catch(() => {
-    alert('コピーに失敗しちゃいました。手動でコピーしてね。');
+    alert('コピーに失敗しました');
   });
 }
 
