@@ -3,97 +3,410 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>メモからカレンダー登録</title>
+  <title>ふわふわメモカレンダー</title>
+  <!-- Google Fonts: ほのぼの丸ゴシック -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700&display=swap" rel="stylesheet">
+  <!-- FontAwesome アイコン -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
   <style>
-    * { box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f2f2f7; padding: 20px; color: #1c1c1e; }
-    .container { max-width: 500px; margin: 0 auto; background: #fff; padding: 24px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-    h2 { margin-top: 0; font-size: 1.3rem; }
-    textarea { width: 100%; height: 120px; padding: 12px; border: 1px solid #d1d1d6; border-radius: 8px; font-size: 1rem; margin-bottom: 16px; resize: vertical; }
-    button { width: 100%; padding: 14px; background-color: #007aff; color: white; border: none; border-radius: 10px; font-size: 1rem; font-weight: bold; cursor: pointer; }
-    button:hover { background-color: #0056b3; }
-    .preview { margin-top: 20px; padding: 16px; background: #f9f9fb; border-radius: 8px; border: 1px solid #e5e5ea; display: none; }
-    .preview h3 { margin-top: 0; font-size: 1rem; color: #8e8e93; }
-    .preview-item { margin-bottom: 8px; }
-    .preview-item strong { display: inline-block; width: 60px; color: #3a3a3c; }
-    .dl-btn { background-color: #34c759; margin-top: 12px; }
+    :root {
+      --bg-gradient: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 50%, #e0f2fe 100%);
+      --card-bg: #ffffff;
+      --primary-blue: #38bdf8;
+      --primary-hover: #0284c7;
+      --light-blue: #f0f9ff;
+      --accent-blue: #bae6fd;
+      --text-main: #334155;
+      --text-muted: #64748b;
+      --timetree-color: #22c55e;
+      --shadow-cloud: 0 12px 32px rgba(56, 189, 248, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'M PLUS Rounded 1c', -apple-system, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px 16px;
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--text-main);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      background: var(--card-bg);
+      border-radius: 28px;
+      padding: 28px 24px;
+      box-shadow: var(--shadow-cloud);
+      border: 3px solid #ffffff;
+      position: relative;
+    }
+
+    /* ふわふわの飾り雲 */
+    .cloud-decoration {
+      position: absolute;
+      top: -20px;
+      right: 20px;
+      background: #ffffff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: var(--primary-blue);
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: bold;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      font-size: 1.4rem;
+      color: #0284c7;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .header p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      margin-bottom: 0;
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #0369a1;
+      margin-bottom: 6px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 110px;
+      padding: 14px;
+      border: 2px solid var(--accent-blue);
+      border-radius: 18px;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      background-color: var(--light-blue);
+      outline: none;
+      transition: all 0.2s ease;
+      resize: vertical;
+    }
+
+    textarea:focus {
+      border-color: var(--primary-blue);
+      background-color: #ffffff;
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 20px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 6px 16px rgba(56, 189, 248, 0.25);
+    }
+
+    .btn-parse {
+      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+      color: #ffffff;
+    }
+
+    .btn-parse:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(56, 189, 248, 0.35);
+    }
+
+    .btn-parse:active {
+      transform: translateY(0);
+    }
+
+    /* 解析結果エリア */
+    .preview-card {
+      margin-top: 24px;
+      background: var(--light-blue);
+      border: 2px dashed var(--accent-blue);
+      border-radius: 20px;
+      padding: 20px;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .preview-card h2 {
+      margin-top: 0;
+      font-size: 1.1rem;
+      color: #0369a1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .field {
+      margin-bottom: 12px;
+      background: #ffffff;
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid #e0f2fe;
+    }
+
+    .field-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: bold;
+    }
+
+    .field-value {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      font-weight: 700;
+      word-break: break-all;
+    }
+
+    .calendar-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .btn-apple {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+    }
+
+    .btn-timetree {
+      background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25);
+    }
+
+    .tip-box {
+      margin-top: 12px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: #ffffff;
+      padding: 10px 12px;
+      border-radius: 12px;
+      line-height: 1.4;
+      border: 1px solid #e0f2fe;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #334155;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      transition: transform 0.3s ease;
+      z-index: 100;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h2>メモから予定を作成</h2>
-  <textarea id="memoInput" placeholder="例：&#10;8月10日 15:00 カフェで打ち合わせ&#10;〇〇さんとプロジェクトの進捗確認をする"></textarea>
-  <button onclick="parseMemo()">解析する</button>
+  <div class="cloud-decoration">
+    <i class="fa-solid fa-cloud"></i> ふわっと変換
+  </div>
 
-  <div id="preview" class="preview">
-    <h3>解析結果の確認</h3>
-    <div class="preview-item"><strong>日付:</strong> <span id="resDate"></span></div>
-    <div class="preview-item"><strong>時間:</strong> <span id="resTime"></span></div>
-    <div class="preview-item"><strong>件名:</strong> <span id="resTitle"></span></div>
-    <div class="preview-item"><strong>内容:</strong> <span id="resBody"></span></div>
-    <button class="dl-btn" onclick="downloadICS()">カレンダーに追加 (.ics)</button>
+  <div class="header">
+    <h1><i class="fa-regular fa-calendar-check" style="color: #38bdf8;"></i> メモからカレンダー登録</h1>
+    <p>メモを入力すると日付や件名を自動で読み取ります♪</p>
+  </div>
+
+  <div class="input-group">
+    <label for="memoInput"><i class="fa-solid fa-pen-fancy"></i> メモを入力</label>
+    <textarea id="memoInput" placeholder="例：&#10;8月10日 15:00 カフェで打ち合わせ&#10;〇〇さんと新プロジェクトの進捗確認をする！"></textarea>
+  </div>
+
+  <button class="btn btn-parse" onclick="parseMemo()">
+    <i class="fa-solid fa-wand-magic-sparkles"></i> 予定をきれいに整理する
+  </button>
+
+  <!-- 結果表示エリア -->
+  <div id="previewCard" class="preview-card">
+    <h2><i class="fa-solid fa-heart" style="color: #38bdf8;"></i> まとめた結果</h2>
+    
+    <div class="field">
+      <div class="field-label">日時</div>
+      <div class="field-value" id="resDateTime">-</div>
+    </div>
+
+    <div class="field">
+      <div class="field-label">件名</div>
+      <div class="field-value" id="resTitle">-</div>
+    </div>
+
+    <div class="field">
+      <div class="field-label">詳細内容</div>
+      <div class="field-value" id="resBody" style="white-space: pre-wrap; font-weight: 400;">-</div>
+    </div>
+
+    <div class="calendar-actions">
+      <!-- iPhoneカレンダーボタン -->
+      <button class="btn btn-apple" onclick="downloadICS()">
+        <i class="fa-brands fa-apple"></i> iPhoneカレンダーに追加 (.ics)
+      </button>
+
+      <!-- TimeTreeボタン -->
+      <button class="btn btn-timetree" onclick="openTimeTree()">
+        <i class="fa-solid fa-tree"></i> TimeTreeに追加（コピー＆起動）
+      </button>
+    </div>
+
+    <div class="tip-box">
+      <strong>💡 アプリ連携のアドバイス</strong><br>
+      • <strong>iPhoneカレンダー:</strong> ボタンを押すとカレンダー登録画面が開きます。<br>
+      • <strong>TimeTree:</strong> 予定内容がクリップボードにコピーされた状態でTimeTreeが開きます。そのまま新規作成画面に貼り付けて登録できます。<br>
+      ※iPhoneの標準カレンダーとTimeTreeを連携設定しておくと、iPhoneカレンダーに追加するだけでTimeTreeにも自動反映されます！
+    </div>
   </div>
 </div>
+
+<div id="toast" class="toast">クリップボードにコピーしました！</div>
 
 <script>
 let parsedEvent = null;
 
 function parseMemo() {
   const text = document.getElementById('memoInput').value.trim();
-  if (!text) return alert('メモを入力してください');
+  if (!text) {
+    alert('メモを入力してくださいね！');
+    return;
+  }
 
   const now = new Date();
   let year = now.getFullYear();
   let month = now.getMonth() + 1;
   let day = now.getDate();
-  let hour = 10; // デフォルト10時
+  let hour = 10; // デフォルト 10:00
   let minute = 0;
 
-  // 日付の正規表現マッチング
-  const dateMatch = text.match(/(\d{1,4})[\/\.-年](\d{1,2})[\/\.-月](\d{1,2})日?/) ||
-                    text.match(/(\d{1,2})月(\d{1,2})日/);
-  
-  if (dateMatch) {
-    if (dateMatch.length === 4) {
-      year = parseInt(dateMatch[1]);
-      month = parseInt(dateMatch[2]);
-      day = parseInt(dateMatch[3]);
-    } else {
-      month = parseInt(dateMatch[1]);
-      day = parseInt(dateMatch[2]);
+  // 相対日付の判定（今日・明日・明後日）
+  if (text.includes('明日') || text.includes('あした')) {
+    const tomorrow = new Date(now);
+    tomorrow.setDate(now.getDate() + 1);
+    year = tomorrow.getFullYear();
+    month = tomorrow.getMonth() + 1;
+    day = tomorrow.getDate();
+  } else if (text.includes('明後日') || text.includes('あさって')) {
+    const dayAfter = new Date(now);
+    dayAfter.setDate(now.getDate() + 2);
+    year = dayAfter.getFullYear();
+    month = dayAfter.getMonth() + 1;
+    day = dayAfter.getDate();
+  } else {
+    // 年月日のパターン検索
+    const fullDateMatch = text.match(/(\d{4})[\/\.-年](\d{1,2})[\/\.-月](\d{1,2})/);
+    const shortDateMatch = text.match(/(\d{1,2})[\/\.-月](\d{1,2})日?/);
+
+    if (fullDateMatch) {
+      year = parseInt(fullDateMatch[1]);
+      month = parseInt(fullDateMatch[2]);
+      day = parseInt(fullDateMatch[3]);
+    } else if (shortDateMatch) {
+      month = parseInt(shortDateMatch[1]);
+      day = parseInt(shortDateMatch[2]);
     }
   }
 
-  // 時間の正規表現マッチング
-  const timeMatch = text.match(/(\d{1,2}):(\d{2})/);
+  // 時間のマッチング（例: 15:30, 15時30分, 15時）
+  const timeMatch = text.match(/(\d{1,2})[:：](\d{2})/) || text.match(/(\d{1,2})時((\d{1,2})分)?/);
   if (timeMatch) {
     hour = parseInt(timeMatch[1]);
-    minute = parseInt(timeMatch[2]);
+    if (timeMatch[2] && !timeMatch[2].includes('分')) {
+      minute = parseInt(timeMatch[2]);
+    } else if (timeMatch[3]) {
+      minute = parseInt(timeMatch[3]);
+    }
   }
 
-  // 行に分割して件名と内容を作成
-  const lines = text.split('\n').filter(l => l.trim() !== '');
-  const title = lines[0] ? lines[0].replace(/(\d{1,2}月\d{1,2}日|\d{1,2}:\d{2})/g, '').trim() || '予定' : '新規予定';
-  const description = lines.slice(1).join('\n') || text;
+  // テキストの整理（1行目を件名、2行目以降を本文に）
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l !== '');
+  
+  // 日時表現を除去してタイトルを綺麗にする
+  let titleText = lines[0] || '新規予定';
+  titleText = titleText
+    .replace(/(\d{4}[\/\.-年])?\d{1,2}[\/\.-月]\d{1,2}日?/, '')
+    .replace(/(\d{1,2}[:：]\d{2}|\d{1,2}時(\d{1,2}分)?)/, '')
+    .replace(/(明日|あした|明後日|あさって|今日)/, '')
+    .trim();
 
-  // 結果の保持
+  if (!titleText) titleText = '予定';
+
+  const description = lines.length > 1 ? lines.slice(1).join('\n') : text;
+
+  // 日付オブジェクト生成
+  const startDate = new Date(year, month - 1, day, hour, minute);
+  const endDate = new Date(year, month - 1, day, hour + 1, minute);
+
   parsedEvent = {
-    start: new Date(year, month - 1, day, hour, minute),
-    end: new Date(year, month - 1, day, hour + 1, minute),
-    title: title,
+    start: startDate,
+    end: endDate,
+    year, month, day, hour, minute,
+    title: titleText,
     description: description
   };
 
-  // プレビュー表示
-  document.getElementById('resDate').textContent = `${year}年${month}月${day}日`;
-  document.getElementById('resTime').textContent = `${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')}`;
+  // 画面へ表示
+  const pad = n => String(n).padStart(2, '0');
+  document.getElementById('resDateTime').textContent = 
+    `${year}年${month}月${day}日 ${pad(hour)}:${pad(minute)} 〜 ${pad(hour+1)}:${pad(minute)}`;
   document.getElementById('resTitle').textContent = parsedEvent.title;
   document.getElementById('resBody').textContent = parsedEvent.description;
-  document.getElementById('preview').style.display = 'block';
+
+  document.getElementById('previewCard').style.display = 'block';
 }
 
-function formatDate(date) {
+// iCalendar (.ics) ダウンロード
+function formatDateToICS(date) {
   return date.toISOString().replace(/-|:|\.\d\d\d/g, '');
 }
 
@@ -103,12 +416,12 @@ function downloadICS() {
   const icsData = 
 `BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//My Calendar App//JA
+PRODID:-//FuwaFuwa Memo App//JA
 BEGIN:VEVENT
 SUMMARY:${parsedEvent.title}
 DESCRIPTION:${parsedEvent.description.replace(/\n/g, '\\n')}
-DTSTART:${formatDate(parsedEvent.start)}
-DTEND:${formatDate(parsedEvent.end)}
+DTSTART:${formatDateToICS(parsedEvent.start)}
+DTEND:${formatDateToICS(parsedEvent.end)}
 END:VEVENT
 END:VCALENDAR`;
 
@@ -116,9 +429,38 @@ END:VCALENDAR`;
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'event.ics';
+  a.download = `${parsedEvent.title}.ics`;
   a.click();
   URL.revokeObjectURL(url);
+}
+
+// TimeTreeへの連携（内容をクリップボードにコピーしてTimeTreeを起動）
+function openTimeTree() {
+  if (!parsedEvent) return;
+
+  const pad = n => String(n).padStart(2, '0');
+  const copyText = `【${parsedEvent.title}】\n日時: ${parsedEvent.year}/${parsedEvent.month}/${parsedEvent.day} ${pad(parsedEvent.hour)}:${pad(parsedEvent.minute)}\n\nメモ:\n${parsedEvent.description}`;
+
+  navigator.clipboard.writeText(copyText).then(() => {
+    showToast('コピーしました！TimeTreeを開きます♪');
+    setTimeout(() => {
+      // TimeTreeのアプリ起動用URLスキームまたはWebリンク
+      window.location.href = 'timetree://';
+      setTimeout(() => {
+        // アプリが開かなかった場合のフォールバック（ストア/Web）
+        window.location.href = 'https://timetreeapp.com/';
+      }, 1500);
+    }, 800);
+  }).catch(() => {
+    alert('コピーに失敗しました。手動でコピーしてください。');
+  });
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
 }
 </script>
 
