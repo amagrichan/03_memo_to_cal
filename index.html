@@ -1,505 +1,286 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ふわふわメモカレンダー</title>
-  <!-- Google Fonts: ほのぼの丸ゴシック -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
-  <!-- FontAwesome アイコン -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ゆめふわ スケジュール登録</title>
+    <style>
+        /* 全体スタイル（水色×白のふわふわグラデーション） */
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #ede9fe 50%, #ffffff 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            box-sizing: border-box;
+            color: #4b5563;
+        }
 
-  <style>
-    :root {
-      --bg-gradient: linear-gradient(180deg, #c7d2fe 0%, #e0f2fe 40%, #f0f9ff 100%);
-      --card-bg: rgba(255, 255, 255, 0.92);
-      --primary-blue: #38bdf8;
-      --primary-hover: #0284c7;
-      --light-blue: #f0f9ff;
-      --accent-blue: #bae6fd;
-      --text-main: #334155;
-      --text-muted: #64748b;
-      --shadow-cloud: 0 16px 40px rgba(56, 189, 248, 0.22);
-    }
+        .container {
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
 
-    * {
-      box-sizing: border-box;
-      font-family: 'M PLUS Rounded 1c', -apple-system, sans-serif;
-    }
+        /* ヘッダー */
+        .header {
+            text-align: center;
+        }
 
-    body {
-      margin: 0;
-      padding: 16px;
-      background: var(--bg-gradient);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      color: var(--text-main);
-      overflow-x: hidden;
-      position: relative;
-    }
+        .header img {
+            width: 140px;
+            height: auto;
+            filter: drop-shadow(0 8px 12px rgba(147, 197, 253, 0.4));
+            animation: float 3s ease-in-out infinite;
+        }
 
-    /* 背景のキラキラアニメーション */
-    .sparkle {
-      position: absolute;
-      color: #ffffff;
-      opacity: 0.6;
-      animation: floatSparkle 6s infinite ease-in-out;
-      pointer-events: none;
-      z-index: 0;
-    }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
 
-    @keyframes floatSparkle {
-      0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
-      50% { transform: translateY(-20px) scale(1.3); opacity: 0.8; }
-    }
+        .header h1 {
+            font-size: 20px;
+            color: #60a5fa;
+            margin-top: 10px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
 
-    /* 空に浮かぶヘッダー */
-    .header {
-      text-align: center;
-      margin-bottom: 36px;
-      z-index: 1;
-      animation: floatTitle 4s infinite ease-in-out;
-    }
+        /* カードのベースデザイン */
+        .card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(191, 219, 254, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
 
-    @keyframes floatTitle {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-8px) rotate(1deg); }
-    }
+        .section-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #93c5fd;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
 
-    .header h1 {
-      font-size: clamp(1.4rem, 4vw, 1.9rem);
-      color: #0284c7;
-      margin: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: rgba(255, 255, 255, 0.85);
-      padding: 10px 24px;
-      border-radius: 50px;
-      box-shadow: 0 8px 24px rgba(56, 189, 248, 0.2);
-      backdrop-filter: blur(4px);
-    }
+        /* 入力フォーム */
+        textarea, input {
+            width: 100%;
+            border: 1.5px solid #bae6fd;
+            border-radius: 16px;
+            padding: 12px;
+            font-size: 15px;
+            box-sizing: border-box;
+            outline: none;
+            background: rgba(255, 255, 255, 0.9);
+            color: #374151;
+            transition: all 0.2s ease;
+        }
 
-    .header p {
-      font-size: clamp(0.8rem, 2.5vw, 0.95rem);
-      color: #475569;
-      margin-top: 10px;
-      margin-bottom: 0;
-      font-weight: 700;
-    }
+        textarea:focus, input:focus {
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.3);
+        }
 
-    /* コンテナ（カード本体） */
-    .container {
-      width: 100%;
-      max-width: 520px;
-      background: var(--card-bg);
-      border-radius: 32px;
-      padding: clamp(20px, 5vw, 32px);
-      box-shadow: var(--shadow-cloud);
-      border: 4px solid #ffffff;
-      position: relative;
-      z-index: 1;
-      backdrop-filter: blur(8px);
-    }
+        textarea {
+            height: 100px;
+            resize: none;
+        }
 
-    /* 【枠外・右上へ移動】画像のうさぎ配置 */
-    .outside-bunny-wrapper {
-      position: absolute;
-      top: -85px;    /* さらに上に位置を調整 */
-      right: -30px;   /* さらに右に飛び出させる */
-      width: 140px;   /* 画像が綺麗に見える大きさに設定 */
-      height: 140px;
-      pointer-events: none;
-      z-index: 10;
-      animation: floatBunnyCloud 4s infinite ease-in-out;
-    }
+        .field-group {
+            margin-bottom: 12px;
+        }
 
-    .bunny-img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      border-radius: 24px; /* 角をほんのり丸めてなじませる */
-      filter: drop-shadow(0 10px 20px rgba(186, 230, 253, 0.6));
-    }
+        .field-group label {
+            font-size: 12px;
+            color: #9ca3af;
+            display: block;
+            margin-bottom: 4px;
+            padding-left: 4px;
+        }
 
-    @keyframes floatBunnyCloud {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-12px) rotate(3deg); }
-    }
+        /* ふわふわボタン */
+        .btn {
+            width: 100%;
+            border: none;
+            border-radius: 20px;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #7dd3fc 0%, #a5b4fc 100%);
+            box-shadow: 0 6px 15px rgba(165, 180, 252, 0.4);
+            cursor: pointer;
+            transition: transform 0.1s ease, box-shadow 0.2s ease;
+            margin-top: 8px;
+        }
 
-    .input-group {
-      margin-bottom: 18px;
-    }
+        .btn:active {
+            transform: scale(0.98);
+        }
 
-    label {
-      display: block;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #0369a1;
-      margin-bottom: 8px;
-    }
+        .btn-add {
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            box-shadow: 0 6px 15px rgba(129, 140, 248, 0.4);
+        }
 
-    textarea {
-      width: 100%;
-      height: 120px;
-      padding: 16px;
-      border: 2px solid var(--accent-blue);
-      border-radius: 20px;
-      font-size: 1rem;
-      color: var(--text-main);
-      background-color: var(--light-blue);
-      outline: none;
-      transition: all 0.25s ease;
-      resize: vertical;
-    }
+        /* 解析結果（最初は非表示） */
+        #resultCard {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
 
-    textarea:focus {
-      border-color: var(--primary-blue);
-      background-color: #ffffff;
-      box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.25);
-    }
-
-    .btn {
-      width: 100%;
-      padding: 16px;
-      border: none;
-      border-radius: 22px;
-      font-size: 1.05rem;
-      font-weight: 800;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      box-shadow: 0 6px 18px rgba(56, 189, 248, 0.28);
-    }
-
-    .btn-parse {
-      background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
-      color: #ffffff;
-    }
-
-    .btn-parse:hover {
-      transform: translateY(-3px) scale(1.01);
-      box-shadow: 0 10px 24px rgba(56, 189, 248, 0.4);
-    }
-
-    .btn-parse:active {
-      transform: translateY(0) scale(0.99);
-    }
-
-    /* 結果カード */
-    .preview-card {
-      margin-top: 24px;
-      background: var(--light-blue);
-      border: 2px dashed var(--accent-blue);
-      border-radius: 24px;
-      padding: 20px;
-      display: none;
-      animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    @keyframes popIn {
-      0% { opacity: 0; transform: scale(0.9) translateY(20px); }
-      100% { opacity: 1; transform: scale(1) translateY(0); }
-    }
-
-    .preview-card h2 {
-      margin-top: 0;
-      font-size: 1.15rem;
-      color: #0369a1;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-
-    .field {
-      margin-bottom: 10px;
-      background: #ffffff;
-      padding: 12px 16px;
-      border-radius: 16px;
-      border: 1px solid #e0f2fe;
-    }
-
-    .field-label {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      font-weight: 800;
-    }
-
-    .field-value {
-      font-size: 1rem;
-      color: var(--text-main);
-      font-weight: 700;
-      word-break: break-all;
-    }
-
-    .calendar-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .btn-apple {
-      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-      color: #ffffff;
-      box-shadow: 0 6px 16px rgba(2, 132, 199, 0.3);
-    }
-
-    .btn-timetree {
-      background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
-      color: #ffffff;
-      box-shadow: 0 6px 16px rgba(34, 197, 94, 0.3);
-    }
-
-    .tip-box {
-      margin-top: 14px;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      background: #ffffff;
-      padding: 12px 14px;
-      border-radius: 16px;
-      line-height: 1.5;
-      border: 1px solid #e0f2fe;
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 28px;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: rgba(51, 65, 85, 0.95);
-      color: #fff;
-      padding: 12px 24px;
-      border-radius: 30px;
-      font-size: 0.9rem;
-      font-weight: bold;
-      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      z-index: 100;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-      backdrop-filter: blur(4px);
-    }
-
-    .toast.show {
-      transform: translateX(-50%) translateY(0);
-    }
-  </style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
 
-<i class="fa-solid fa-star sparkle" style="top: 10%; left: 8%; font-size: 1.2rem; animation-delay: 0s;"></i>
-<i class="fa-solid fa-sparkles sparkle" style="top: 20%; right: 10%; font-size: 1.5rem; animation-delay: 1.5s;"></i>
-<i class="fa-solid fa-cloud sparkle" style="top: 75%; left: 5%; font-size: 2rem; animation-delay: 2.5s;"></i>
-<i class="fa-solid fa-star sparkle" style="bottom: 12%; right: 8%; font-size: 1rem; animation-delay: 0.8s;"></i>
+    <div class="container">
+        <!-- ヘッダーエリア -->
+        <div class="header">
+            <img src="bunny.png" alt="うさぎちゃん">
+            <h1>ゆめふわ スケジュール登録</h1>
+        </div>
 
-<div class="header">
-  <h1><i class="fa-solid fa-cloud-moon" style="color: #38bdf8;"></i> ふわっとメモカレンダー</h1>
-  <p>✨ メモを入れるだけでカレンダーにすぐ登録できるよ ✨</p>
-</div>
+        <!-- メモ入力エリア -->
+        <div class="card">
+            <div class="section-title">✨ メモを入力してね</div>
+            <textarea id="memoInput" placeholder="例：明日 15:00 渋谷でカフェミーティング"></textarea>
+            <button class="btn" onclick="parseMemo()">予定を読み取る 🪄</button>
+        </div>
 
-<div class="container">
+        <!-- 解析＆確認エリア -->
+        <div class="card" id="resultCard">
+            <div class="section-title" style="color: #818cf8;">🌸 抽出結果</div>
+            
+            <div class="field-group">
+                <label for="titleInput">件名</label>
+                <input type="text" id="titleInput">
+            </div>
 
-  <!-- 枠外の右上に配置した添付画像 -->
-  <div class="outside-bunny-wrapper">
-    <!-- 保存した画像ファイル名に合わせて src を変更してください (例: bunny.png) -->
-    <img src="bunny.png" alt="おやすみうさぎ" class="bunny-img">
-  </div>
+            <div class="field-group">
+                <label for="dateInput">日時</label>
+                <input type="datetime-local" id="dateInput">
+            </div>
 
-  <div class="input-group">
-    <label for="memoInput"><i class="fa-solid fa-pen-nib"></i> メモを入力してね</label>
-    <textarea id="memoInput" placeholder="例：&#10;8月10日 15:00 カフェで打ち合わせ&#10;〇〇さんと新プロジェクトの進捗確認をする！"></textarea>
-  </div>
+            <div class="field-group">
+                <label for="notesInput">詳細・メモ</label>
+                <input type="text" id="notesInput">
+            </div>
 
-  <button class="btn btn-parse" onclick="parseMemo()">
-    <i class="fa-solid fa-wand-magic-sparkles"></i> 予定を魔法でまとめる
-  </button>
-
-  <div id="previewCard" class="preview-card">
-    <h2><i class="fa-solid fa-wand-sparkles" style="color: #38bdf8;"></i> まとめた結果</h2>
-    
-    <div class="field">
-      <div class="field-label">日時</div>
-      <div class="field-value" id="resDateTime">-</div>
+            <button class="btn btn-add" onclick="addToCalendar()">iPhoneカレンダーに追加する 📅</button>
+        </div>
     </div>
 
-    <div class="field">
-      <div class="field-label">件名</div>
-      <div class="field-value" id="resTitle">-</div>
-    </div>
+    <script>
+        // メモの解析処理
+        function parseMemo() {
+            const memo = document.getElementById('memoInput').value.trim();
+            if (!memo) return;
 
-    <div class="field">
-      <div class="field-label">詳細内容</div>
-      <div class="field-value" id="resBody" style="white-space: pre-wrap; font-weight: 400;">-</div>
-    </div>
+            const lines = memo.split('\n').filter(l => l.trim() !== '');
+            let title = lines[0] || '新しい予定';
+            let notes = lines.slice(1).join('\n') || '';
 
-    <div class="calendar-actions">
-      <button class="btn btn-apple" onclick="downloadICS()">
-        <i class="fa-brands fa-apple"></i> iPhoneカレンダーに追加 (.ics)
-      </button>
+            // 日付・時刻の自動解析 (簡易ロジック)
+            let targetDate = new Date();
+            
+            // 「明日」「明後日」の判定
+            if (memo.includes('明日')) {
+                targetDate.setDate(targetDate.getDate() + 1);
+            } else if (memo.includes('明後日')) {
+                targetDate.setDate(targetDate.getDate() + 2);
+            }
 
-      <button class="btn btn-timetree" onclick="openTimeTree()">
-        <i class="fa-solid fa-tree"></i> TimeTreeに追加（コピー＆起動）
-      </button>
-    </div>
+            // 「15:00」や「15時」などの時刻抽出
+            const timeMatch = memo.match(/(\d{1,2})[:時](\d{2})?|(\d{1,2})時/);
+            if (timeMatch) {
+                let hours = parseInt(timeMatch[1] || timeMatch[3], 10);
+                let minutes = timeMatch[2] ? parseInt(timeMatch[2], 10) : 0;
+                
+                // 午後表記への簡易対応
+                if (memo.includes('午後') && hours < 12) {
+                    hours += 12;
+                }
+                
+                targetDate.setHours(hours, minutes, 0, 0);
+            } else {
+                // 時間指定がない場合は翌時の0分に設定
+                targetDate.setHours(targetDate.getHours() + 1, 0, 0, 0);
+            }
 
-    <div class="tip-box">
-      <strong>💡 アプリ連携のアドバイス</strong><br>
-      • <strong>iPhoneカレンダー:</strong> ボタンを押すとそのまま予定追加画面が開きます。<br>
-      • <strong>TimeTree:</strong> 予定内容がコピーされた状態でアプリが開きます。新規作成画面に貼り付けて登録してね♪
-    </div>
-  </div>
-</div>
+            // datetime-local 形式（YYYY-MM-DDTHH:mm）に変換
+            const year = targetDate.getFullYear();
+            const month = String(targetDate.getMonth() + 1).padStart(2, '0');
+            const day = String(targetDate.getDate()).padStart(2, '0');
+            const hours = String(targetDate.getHours()).padStart(2, '0');
+            const minutes = String(targetDate.getMinutes()).padStart(2, '0');
+            
+            const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
 
-<div id="toast" class="toast">クリップボードにコピーしたよ！</div>
+            // フィールドにセット
+            document.getElementById('titleInput').value = title;
+            document.getElementById('dateInput').value = formattedDateTime;
+            document.getElementById('notesInput').value = notes;
 
-<script>
-let parsedEvent = null;
+            // 結果カードを表示
+            document.getElementById('resultCard').style.display = 'block';
+        }
 
-function parseMemo() {
-  const text = document.getElementById('memoInput').value.trim();
-  if (!text) {
-    alert('メモを入力してくださいね！');
-    return;
-  }
+        // iCalendar (.ics) ファイルを作成してダウンロード
+        function addToCalendar() {
+            const title = document.getElementById('titleInput').value || '新しい予定';
+            const dateTimeVal = document.getElementById('dateInput').value;
+            const notes = document.getElementById('notesInput').value || '';
 
-  const now = new Date();
-  let year = now.getFullYear();
-  let month = now.getMonth() + 1;
-  let day = now.getDate();
-  let hour = 10;
-  let minute = 0;
+            if (!dateTimeVal) {
+                alert('日時を入力してください');
+                return;
+            }
 
-  if (text.includes('明日') || text.includes('あした')) {
-    const tomorrow = new Date(now);
-    tomorrow.setDate(now.getDate() + 1);
-    year = tomorrow.getFullYear();
-    month = tomorrow.getMonth() + 1;
-    day = tomorrow.getDate();
-  } else if (text.includes('明後日') || text.includes('あさって')) {
-    const dayAfter = new Date(now);
-    dayAfter.setDate(now.getDate() + 2);
-    year = dayAfter.getFullYear();
-    month = dayAfter.getMonth() + 1;
-    day = dayAfter.getDate();
-  } else {
-    const fullDateMatch = text.match(/(\d{4})[\/\.-年](\d{1,2})[\/\.-月](\d{1,2})/);
-    const shortDateMatch = text.match(/(\d{1,2})[\/\.-月](\d{1,2})日?/);
+            const startDate = new Date(dateTimeVal);
+            const endDate = new Date(startDate.getTime() + (60 * 60 * 1000)); // 1時間後
 
-    if (fullDateMatch) {
-      year = parseInt(fullDateMatch[1]);
-      month = parseInt(fullDateMatch[2]);
-      day = parseInt(fullDateMatch[3]);
-    } else if (shortDateMatch) {
-      month = parseInt(shortDateMatch[1]);
-      day = parseInt(shortDateMatch[2]);
-    }
-  }
+            // UTC形式の文字列に変換 (YYYYMMDDTHHMMSSZ)
+            const formatDate = (date) => {
+                return date.toISOString().replace(/-|:|\.\d+/g, '');
+            };
 
-  const timeMatch = text.match(/(\d{1,2})[:：](\d{2})/) || text.match(/(\d{1,2})時((\d{1,2})分)?/);
-  if (timeMatch) {
-    hour = parseInt(timeMatch[1]);
-    if (timeMatch[2] && !timeMatch[2].includes('分')) {
-      minute = parseInt(timeMatch[2]);
-    } else if (timeMatch[3]) {
-      minute = parseInt(timeMatch[3]);
-    }
-  }
+            // .ics フォーマット作成
+            const icsData = [
+                'BEGIN:VCALENDAR',
+                'VERSION:2.0',
+                'PRODID:-//YumeFuwa Calendar//JP',
+                'BEGIN:VEVENT',
+                `SUMMARY:${title}`,
+                `DESCRIPTION:${notes.replace(/\n/g, '\\n')}`,
+                `DTSTART:${formatDate(startDate)}`,
+                `DTEND:${formatDate(endDate)}`,
+                'END:VEVENT',
+                'END:VCALENDAR'
+            ].join('\r\n');
 
-  const lines = text.split('\n').map(l => l.trim()).filter(l => l !== '');
-  let titleText = lines[0] || '新規予定';
-  titleText = titleText
-    .replace(/(\d{4}[\/\.-年])?\d{1,2}[\/\.-月]\d{1,2}日?/, '')
-    .replace(/(\d{1,2}[:：]\d{2}|\d{1,2}時(\d{1,2}分)?)/, '')
-    .replace(/(明日|あした|明後日|あさって|今日)/, '')
-    .trim();
-
-  if (!titleText) titleText = '予定';
-
-  const description = lines.length > 1 ? lines.slice(1).join('\n') : text;
-
-  const startDate = new Date(year, month - 1, day, hour, minute);
-  const endDate = new Date(year, month - 1, day, hour + 1, minute);
-
-  parsedEvent = {
-    start: startDate,
-    end: endDate,
-    year, month, day, hour, minute,
-    title: titleText,
-    description: description
-  };
-
-  const pad = n => String(n).padStart(2, '0');
-  document.getElementById('resDateTime').textContent = 
-    `${year}年${month}月${day}日 ${pad(hour)}:${pad(minute)} 〜 ${pad(hour+1)}:${pad(minute)}`;
-  document.getElementById('resTitle').textContent = parsedEvent.title;
-  document.getElementById('resBody').textContent = parsedEvent.description;
-
-  document.getElementById('previewCard').style.display = 'block';
-}
-
-function formatDateToICS(date) {
-  return date.toISOString().replace(/-|:|\.\d\d\d/g, '');
-}
-
-function downloadICS() {
-  if (!parsedEvent) return;
-
-  const icsData = 
-`BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//FuwaFuwa Memo App//JA
-BEGIN:VEVENT
-SUMMARY:${parsedEvent.title}
-DESCRIPTION:${parsedEvent.description.replace(/\n/g, '\\n')}
-DTSTART:${formatDateToICS(parsedEvent.start)}
-DTEND:${formatDateToICS(parsedEvent.end)}
-END:VEVENT
-END:VCALENDAR`;
-
-  const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `${parsedEvent.title}.ics`;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-function openTimeTree() {
-  if (!parsedEvent) return;
-
-  const pad = n => String(n).padStart(2, '0');
-  const copyText = `【${parsedEvent.title}】\n日時: ${parsedEvent.year}/${parsedEvent.month}/${parsedEvent.day} ${pad(parsedEvent.hour)}:${pad(parsedEvent.minute)}\n\nメモ:\n${parsedEvent.description}`;
-
-  navigator.clipboard.writeText(copyText).then(() => {
-    showToast('コピーしたよ！TimeTreeを開きます♪');
-    setTimeout(() => {
-      window.location.href = 'timetree://';
-      setTimeout(() => {
-        window.location.href = 'https://timetreeapp.com/';
-      }, 1500);
-    }, 800);
-  }).catch(() => {
-    alert('コピーに失敗しちゃいました。手動でコピーしてね。');
-  });
-}
-
-function showToast(msg) {
-  const toast = document.getElementById('toast');
-  toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2500);
-}
-</script>
-
+            // ファイルダウンロード設定
+            const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.setAttribute('download', 'event.ics');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
 </body>
 </html>
